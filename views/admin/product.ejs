@@ -1,0 +1,123 @@
+<%- include('../layouts/aHeader'); -%>
+
+<div class="container mt-5">
+  <div class="row tm-content-row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+      <div class="tm-bg-primary-dark tm-block tm-block-products">
+        <div class="tm-product-table-container">
+          <table class="table table-hover tm-table-small tm-product-table">
+            <thead>
+              <tr>
+                <th scope="col">NO</th>
+                <th scope="col">IMAGE</th>
+                <th scope="col">PRODUCT NAME</th>
+                <th scope="col">STATUE</th>
+                <th scope="col">FLAG</th>
+                <th scope="col">EDIT</th>
+                <th scope="col">VIEW</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if ( product.length > 0) { %>
+                <% for( let i = 0; i < product.length; i++ ) { %>
+                  <tr>
+                    <th scope="row">
+                      <%= i+1 %>
+
+                    </th>
+                    <td class="tm-product-image"><img style="width: 60px;height: 60px; object-fit: cover;" src="/product_img/<%= product[i].images[0] %>" alt=""></td>
+                    <td><%= product[i].title %></td>
+
+                      <% if (product[i].listed == 0) { %>
+                        <td>
+                            <div class="tm-status-circle moving">
+                            </div>Active
+                        </td>
+                        <td>
+                        <a href="/admin/product/list?id=<%= product[i]._id %>" class="">
+                          <span class='fa-stack fa-lg  text-success'>
+                            <i class='fas fa-flag fa-stack-1x'></i>
+                            <i class='fa-regular fa-circle fa-stack-2x'></i>
+                        
+                        </span>
+
+                      <% }else{ %>
+
+                      <td>
+                        <div class="tm-status-circle pending">
+                      </div>Unlist
+                    </td>
+                    <td>
+                    <a href="/admin/product/unlist?id=<%= product[i]._id %>" class="" >
+                      <span class='fa-stack fa-lg text-danger '>
+                        <i class='fas fa-flag fa-stack-1x'></i>
+                        <i class='fas fa-ban fa-stack-2x'></i>
+                    </span>
+                    <% } %>
+
+                    <td>
+                      <a href="/admin/product/edit?id=<%= product[i]._id %>" class="tm-product-delete-link">
+                        <i class="fas fa-edit tm-product-delete-icon"></i>
+                      </a>
+                    </td>
+                    <td>
+                      <a href="/admin/product/view?id=<%= product[i]._id %>" class="tm-product-delete-link">
+                        <i class="fa fa-eye tm-product-delete-icon"></i>
+                      </a>
+                    </td>
+                    </tr>
+                <% } %>
+
+                  <% }else{ %>
+                    <tr>
+                      <th class="text-danger" colspan="7 ">
+                        dont have product please add!!
+                      </th>
+                    </tr>
+                    <% } %>
+                </tbody>
+          </table>
+        </div>
+        <!-- table container -->
+        <a
+          href="/admin/product/add-product"
+          class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+          <!-- table container -->
+          <a href="/admin/product/category" class="btn btn-primary text-uppercase mb-3">
+              category
+          </a>
+          <a href="/admin/coupon" class="btn btn-primary text-uppercase mb-3">
+            Coupon
+          </a>
+      </div>
+    </div>
+  </div>
+</div>
+<% if (message != null) { %>
+  <script>
+        swal.fire({
+          title: "Good job!",
+          text: " <%= message %> ",
+          icon: "success",
+          timer:1000,
+          showConfirmButton: false
+        })
+</script>
+<% } %>
+<% if (mes != null) { %>
+  <script>
+        swal.fire({
+          title: "Oops" ,  
+          text: " <%= mes %> !",
+          icon: "error",
+          timer:2000,
+          showConfirmButton: false
+        })
+</script>
+<% } %>
+
+<script>
+  document.getElementById('navProducts').classList = 'nav-link active';
+</script>
+
+<%- include('../layouts/aFooter'); -%>

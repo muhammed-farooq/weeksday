@@ -1,0 +1,121 @@
+<%- include('../layouts/aHeader'); -%>
+
+<div class="container tm-mt-big tm-mb-big">
+  <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-product-categories">
+            <h2 class="tm-block-title">Product Categories</h2>
+            <div class="tm-product-table-container">
+              <table class="table tm-table-small tm-product-table">
+                  <thead >
+                    <tr class="text-center">
+                      <th scope="col">NO</th>
+                      <th scope="col">CATEGORY</th>                                  
+                      <th scope="col">Delete</th>                                  
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (category.length > 0) { %>
+                      <% for (let i = 0; i < category.length; i++) { %>
+                        <tr class="text-center">
+                          <td class=""><%= i + 1 %></td>
+                          <td class=""><%= category[i].name%></td>
+                          <td>
+                            <a href="#" id="del_<%= category[i]._id %>" class="tm-product-delete-link" data-toggle="modal" data-target="#deleteModal_<%= category[i]._id %>">
+                              <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                            </a>
+                            <!-- Modal -->
+                            <div class="modal fade" id="deleteModal_<%= category[i]._id %>" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">Delete Category</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body text-dark">
+                                    Are you sure you want to delete <%= category[i].name %>?
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <a href="/admin/product/category/delete?id=<%= category[i]._id %>" class="btn btn-dark">Delete</a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </td> 
+                        </tr>
+                      <% } %>
+                    <% } else { %>
+                      <tr>
+                        <td class="tm-product-name">did'nt have any category</td>
+                       </tr>
+                    <% } %>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+    <div class="col-lg-6  mx-auto tm-login-col">
+      <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h2 class="tm-block-title mb-4">To add Category</h2>
+            <% if (message != null) { %>
+              <script>
+                    swal.fire({
+                      title: "Good job!",
+                      text: " <%= message %> ",
+                      icon: "success",
+                      timer:1000,
+                      showConfirmButton: false
+                    })
+            </script>
+            <% } %>
+            <% if (mes != null) { %>
+              <script>
+                    swal.fire({
+                      title: "Oops" ,  
+                      text: " <%= mes %> !",
+                      icon: "error",
+
+                    })
+            </script>
+            <% } %>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-12">
+            <form action="/admin/product/category" method="post" class="tm-login-form">\
+              <div class="form-group mt-3">
+                <label for="password">Category</label>
+                <input
+                  name="category"
+                  type="text"
+                  class="form-control validate"
+                  id=""
+                />
+              </div>
+              <div class="form-group mt-4">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block text-uppercase"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('naveCategory').classList = 'nav-link active';
+</script>
+  <%- include('../layouts/aFooter'); -%>

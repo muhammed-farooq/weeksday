@@ -1,0 +1,564 @@
+<%- include('../layouts/Uheader'); -%>   
+    
+<style>
+    .nav-link.active {
+        color: #0d6efd!important;
+        border: 1px  #0d6efd ;
+
+    }
+    .nav-link {
+        width: -webkit-fill-available ;
+        color: rgb(0, 0, 0)!important;
+        border: 1px  #000000 ;
+        
+    }
+</style>
+
+    <!-- Checkout Section Begin -->
+
+    <!-- Checkout Section End -->
+        <!-- Breadcrumb Section Begin -->
+        <section class="breadcrumb-option">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="breadcrumb__text">
+                            <h4>Shopping Cart</h4>
+                            <div class="breadcrumb__links">
+                                <a href="/home">Home</a>
+                                <a href="/cart">cart</a>
+                                <span>checkout</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Breadcrumb Section End -->
+    <nav>
+
+        <div class="nav nav-tabs mt-3" id="nav-tab" role="tablist">
+        <div class="row" style="justify-content: center;
+        width: 100%;">
+            <div class="col-6" style="display: flex;justify-content: center ; height: 100px; ">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" onclick="activateHomeTab()" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home">
+                    <i class='fa-solid fa-shopping-bag' style="font-size: 40px;"></i><br>ORDER</button>
+            </div>
+            <div class="col-6" style="    display: flex;justify-content: center ;height: 100px;">
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" onclick="activateprofi()" data-bs-target="#nav-profile" type="button" role="tab" >
+                    <i class="fa-solid fa-cart-shopping" style="font-size: 40px;"></i><br> REVIEW  </button>
+            </div>
+            </div>
+        </div>
+      </nav>
+      <script>
+        function activateHomeTab() {
+            // TODO: Implement the logic for the "ORDER" tab
+            console.log("Home tab activated");
+            document.getElementById("nav-home-tab").classList.add("active");
+            document.getElementById("nav-profile-tab").classList.remove("active");
+        }
+    
+        function activateprofi() {
+            // TODO: Implement the logic for the "REVIEW" tab
+            console.log("Profile tab activated");
+            document.getElementById("nav-profile-tab").classList.add("active");
+            document.getElementById("nav-home-tab").classList.remove("active");
+        }
+    </script>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">    
+            <section class="checkout spad">
+                <div class="container">
+                    <div class="checkout__form">
+                        <form  id="orderform" action="/checkout" method="post">
+                            <h6 class="checkout__title">Billing Details</h6>
+                            <div class="row" style="justify-content: center;">
+                                <div class="col-lg-8 col-md-6 p-4" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                                <% if (user.addresses.length == 0) { %>
+                                    <div class="row">
+                                        <div class="checkout__input" style="width: 75%;">
+                                        <p>Full name (First and Last name)<span>*</span></p>
+                                        <input type="text" name="name" id="name" minlength="3" maxlength="50">
+                                        <span class="error" id="name-error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="checkout__input" style="width: 75%;">
+                                        <p>House name<span>*</span></p>
+                                        <input type="text" name="housename" id="housename">
+                                        <span class="error" id="housename-error"></span>
+                                    </div>
+                                    <div class="checkout__input" style="width: 50%;">
+                                        <p>Pincode / ZIP<span>*</span></p>
+                                        <input type="text" name="pincode" id="pincode" placeholder="Enter 6 digits [0-9] PIN code" pattern="[0-9]{6}">
+                                        <span class="error" id="pincode-error"></span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Town/City<span>*</span></p>
+                                                <input type="text" name="city" id="city" minlength="1" maxlength="50">
+                                                <span class="error" id="city-error"></span>
+                            
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>District<span>*</span></p>
+                                                <input type="text" name="district" id="district" minlength="1" maxlength="50">
+                                                <span class="error" id="district-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input" style="width: 70%;">
+                                                <p>State<span>*</span></p>
+                                                <input type="text" name="state" id="state" minlength="1" maxlength="50" value="Kerala">
+                                                <span class="error" id="state-error"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Mobile number<span>*</span></p>
+                                                <input type="tel" name="mobilenumber" placeholder="Enter 10 digits Mobile Number" id="mobilenumber">
+                                                <span class="error" id="mobilenumber-error"></span>
+                            
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Email<span>*</span></p>
+                                                <input type="email" name="email" id="email">
+                                                <span class="error" id="email-error"></span>
+                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div><a href="/address" class="btn btn-dark">To add any address</a></div>
+                                </div>
+                                <% }else{ %>
+                                <div class="row">
+                                    <div class="checkout__input" style="width: 75%;">
+                                    <p>Full name (First and Last name)<span>*</span></p>
+                                    <input type="text" name="name" id="name" minlength="3" maxlength="50" value="<%= user.addresses[index].name %>">
+                                    <span class="error" id="name-error"></span>
+                                    </div>
+                                </div>
+                                <div class="checkout__input" style="width: 75%;">
+                                    <p>House name<span>*</span></p>
+                                    <input type="text" name="housename" id="housename" value="<%= user.addresses[index].houseName %>">
+                                    <span class="error" id="housename-error"></span>
+                                </div>
+                                <div class="checkout__input" style="width: 50%;">
+                                    <p>Pincode / ZIP<span>*</span></p>
+                                    <input type="text" name="pincode" id="pincode" placeholder="Enter 6 digits [0-9] PIN code" pattern="[0-9]{6}" value="<%= user.addresses[index].zip %>">
+                                    <span class="error" id="pincode-error"></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>Town/City<span>*</span></p>
+                                            <input type="text" name="city" id="city" minlength="1" maxlength="50" value="<%= user.addresses[index].city %>">
+                                            <span class="error" id="city-error"></span>
+                        
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>District<span>*</span></p>
+                                            <input type="text" name="district" id="district" minlength="1" maxlength="50" value="<%= user.addresses[index].district %>">
+                                            <span class="error" id="district-error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input" style="width: 70%;">
+                                            <p>State<span>*</span></p>
+                                            <input type="text" name="state" id="state" minlength="1" maxlength="50" value="<%= user.addresses[index].state %>">
+                                            <span class="error" id="state-error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>Mobile number<span>*</span></p>
+                                            <input type="tel" name="mobilenumber" placeholder="Enter 10 digits Mobile Number" id="mobilenumber" value="<%= user.addresses[index].mobilNumber %>">
+                                            <span class="error" id="mobilenumber-error"></span>
+                        
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>Email<span>*</span></p>
+                                            <input type="email" name="email" id="email"  value="<%= user.addresses[index].email %>">
+                                            <span class="error" id="email-error"></span>
+                        
+                                        </div>
+                                    </div>
+                                </div>
+                                <div><a href="/address" class="btn btn-dark">To select another address</a></div>
+                            </div>
+                                    <% } %>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="checkout__order" id="checkout__order">
+                                        <% if (cart!=null && cart.Products.length !=0) { %>                      
+                                        <h4 class="order__title">Your order</h4>
+                                        <div class="checkout__order__products">Product <span>Total</span></div>
+                                        <ul class="checkout__total__products">
+                                            <% for( let i = 0; i < cart.Products.length; i++ ) { %>
+                                                <li>0<%= i+1%>.<%= cart.Products[i].productId.title %>  <span>₹<%= cart.Products[i].totalPrice %>.0</span></li>
+                                            <% } %>
+                                        </ul>
+                                        <ul class="checkout__total__all">
+                                            <li class="subtotalcheck">Subtotal <span>₹<%= cart.GrandTotal %>.00</span></li>
+                                            <% if (cart.coupon) { %>
+                         
+                                                <li class="grandtotal ">Total <span class=" text-success"><%= cart.coupon.discount %>%</span></li>
+                                                <li class="grandtotalcheck">Total <span>₹<%= cart.GrandTotal-cart.discount %>.00</span></li>
+                                                <% }else{ %>
+                                                    <li class="grandtotal ">Total <span class=" text-success">0%</span></li>
+                                                    <li class="grandtotalcheck">Total <span>₹<%= cart.GrandTotal %>.00</span></li>
+                                                <% } %>
+                                        </ul>
+                                        <!-- <div class="checkout__input__checkbox">
+                                            <label for="acc-or">
+                                                Create an account?
+                                                <input type="checkbox" id="acc-or">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div> -->
+                                        <p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
+                                        ut labore et dolore magna aliqua.</p>
+                                        <div class="checkout__input__checkbox">
+                                            <span class="error" id="payment-error"></span>
+                                            <label for="payment">
+                                                Chash on delivery
+                                                <input type="radio" id="payment" value="cod" name="paymentType">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                        <div class="checkout__input__checkbox">
+                                            <label for="paypal">
+                                                Razorpay
+                                                <input type="radio" id="paypal" value="Razorpay" name="paymentType">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">View Coupons</button>
+                                        <button type="submit" class="site-btn" id="submit-button">PLACE ORDER</button>
+                                        <% }else{ %>
+                                            <a href="/shop" class="site-btn" id="submit-button">Shop products</a>
+                                        <% } %>   
+                                        
+                                    </div>
+                                    <div class="checkout__order" style="display: none;" id="shopbtn">
+                                        <a href="/shop"  class="site-btn" id="shopbtn" >Shop products</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">    
+            <section class="shopping-cart spad">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="shopping__cart__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% if (cart.Products.length != 0 && cart) { %>
+                                        <% for( let i = 0; i < cart.Products.length; i++ ) { %>
+                                            <tr id="<%= cart.Products[i].productId._id %>">
+                                                <td class="product__cart__item" >
+                                                    <div class="product__cart__item__pic">
+                                                        <a href="/product-detail?id=<%= cart.Products[i].productId._id %>"><img src="product_img/<%= cart.Products[i].productId.images[0] %>" alt=""style="width: 70px;height: 70px; object-fit: cover;"></a>
+                                                    </div>
+                                                    <div class="product__cart__item__text">
+                                                        <h6><%= cart.Products[i].productId.title %></h6>
+                                                        <h5>₹<%= cart.Products[i].productId.price %></h5>
+                                                    </div>
+                                                </td>
+                                                <td class="quantity__item">
+                                                    <div class="quantity ">
+                                                        <div class="pro-qty-2 ">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                <button class="btn btn-outline-secondary btn-minus" id="<%= cart.Products[i].productId._id %>" type="button"><i class="fa fa-minus"></i></button>
+                                                                </div>
+                                                                <input type="number" class="form-control" name="quantity" value="<%= cart.Products[i].quantity %>" min="1" max="<%= cart.Products[i].productId.stocks %>"  style="width: 40px;" readonly>
+                                                                <div class="input-group-append">
+                                                                <button class="btn btn-outline-secondary btn-plus" type="button" id="<%= cart.Products[i].productId._id %>"><i class="fa fa-plus"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="cart__price" id="product_<%= cart.Products[i].productId._id %>_price">₹<%= cart.Products[i].totalPrice %>.00</td>
+                                                <td class="cart__close"><a onclick="removecart('<%= cart.Products[i].productId._id %>')"><i class="fa fa-close"></i></a></td>
+                                            </tr>
+                    
+                                        <% } %>
+                                        <tr id="additemstocart" style="display: none;">
+                                            <td class="product__cart__item text-danger" colspan="4">items missing !!!</td>
+                                        </tr>   
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="continue__btn">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="continue__btn update__btn">
+                                                <a href="/shop"><i class="fa fa-spinner"></i> Add more items</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                        <div class="col-lg-4">
+                                            <div class="cart__total">
+                                                <h6>Cart total</h6>
+                                                <ul>
+                                                    <li class="subtotal" >Subtotal <span>₹ <%= cart.GrandTotal %>.00</span></li>
+                                                    <% if (cart.coupon) { %>
+                                                        <li class="grandtotal ">Total <span class=" text-success"><%= cart.coupon.discount %>%</span></li>
+                                                        <li class="grandtotalcheck">Total <span>₹<%= cart.GrandTotal-cart.discount %>.00</span></li>
+                                                    <% }else{ %>
+                                                        <li class="grandtotal ">Total <span class=" text-success">0%</span></li>
+                                                        <li class="grandtotalcheck">Total <span>₹<%= cart.GrandTotal %>.00</span></li>
+                                                    <% } %>
+                                                </ul>
+                                    <% }else{ %>
+                                                <tr>
+                                                    <td class="product__cart__item text-danger" colspan="4">You don't have Items</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="continue__btn">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="continue__btn update__btn">
+                                                <a href="/shop"><i class="fa fa-spinner"></i> Add items</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="cart__total">
+                                            <h6>Cart total</h6>
+                                            <ul>
+                                                <li>Subtotal <span>₹ 0.00</span></li>
+                                                <li class="grandtotal">Discount <span class="text-success">0%</span></li>
+                                                <li>Total <span>₹ 0.00</span></li>
+                                            </ul>
+                                        <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+      </div>
+          <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Wishlist</h5>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+            <div class="modal-footer">
+                <h1>           </h1>
+            </div>
+        </div>
+        </div>
+    </div>
+        <!-- Footer Section Begin -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer__about">
+                            <div class="footer__logo">
+                                <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                            </div>
+                            <p>The customer is at the heart of our unique business model, which includes design.</p>
+                            <a href="#"><img src="img/payment.png" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                        <div class="footer__widget">
+                            <h6>Shopping</h6>
+                            <ul>
+                                <li><a href="#">Clothing Store</a></li>
+                                <li><a href="#">Trending Shoes</a></li>
+                                <li><a href="#">Accessories</a></li>
+                                <li><a href="#">Sale</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6">
+                        <div class="footer__widget">
+                            <h6>Shopping</h6>
+                            <ul>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Payment Methods</a></li>
+                                <li><a href="#">Delivary</a></li>
+                                <li><a href="#">Return & Exchanges</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                        <div class="footer__widget">
+                            <h6>NewLetter</h6>
+                            <div class="footer__newslatter">
+                                <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                                <form action="#">
+                                    <input type="text" placeholder="Your email">
+                                    <button type="submit"><span class="icon_mail_alt"></span></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="footer__copyright__text">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            <p>Copyright ©
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                </script>2020
+                                All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            </p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer Section End -->
+
+        <div class="modal fade exampleModal" id="exampleModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form class="needs-validation" method="post" action="/add-coupon" id="couponApplyForm" novalidate>
+               <ul class="list-group ">
+                <% if (coupon.length !=0 ) { %>
+                    <% for(let i = 0 ; i < coupon.length ; i ++){ %>
+
+                        <li class="list-group-item d-flex justify-content-between bg-light">
+                          <div style="width:80px">
+                            <h6 class="my-0"><%= coupon[i].title %></h6>
+                          </div>
+                          <span class=" " style="width:80px">Purchase Above ₹<%= coupon[i].minPurchaseAmount %></span>
+                          <span class="btn btn-danger text-white" style="border-radius: 5%;"><%= coupon[i].discount %>% OFF</span>
+                          <span class=" ">Max ₹<%= coupon[i].maxDiscountAmount %></span>
+                          <input  type="radio" value="<%= coupon[i]._id %>" id="" name="coupon">
+                        </li>
+        
+                        <% } %>  
+
+
+            </ul>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" onclick="kama()">Apply</button>
+            </div>
+            <% }else{ %>
+                <li class="text-primary">no coupon avialeble</li>
+        <% } %>
+         </form>
+
+    </div>
+  </div>
+</div>
+
+
+<% if (user) { %>
+    <p style="display: none;" id="nameuser"><%= user.Username %></p>
+<% }else{ %>
+    <p style="display: none;" id="nameuser"></p>
+
+<% } %>
+
+
+<script>
+const form = document.querySelector('#couponApplyForm');
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+ // hide the modal
+
+  const formData = new FormData(form);
+  fetch('/coupon-apply', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams(formData)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('jjdh');
+
+const body = document.body
+body.classList.remove('modal-open')
+    const modal = document.getElementById('exampleModal')
+    modal.classList.remove('show');
+    modal.style.display = 'none'
+    modal.removeAttribute('aria-modal');
+    modal.ariaHidden =true
+
+    const back = document.querySelector('.modal-backdrop')
+    back.remove();
+
+
+
+    const modalBody = document.querySelector('#modal-body');
+    modalBody.textContent = data.message;
+    $('#myModal').modal('show');
+    setTimeout(function() {
+        $('#myModal').modal('hide');
+    }, 5000)
+  })
+  .catch(error => {
+    console.error(error);
+    // Handle any errors that occur during the request
+  });
+});
+function kama(){
+$('#exampleModal').modal('hide')
+    
+}
+</script>
+<%- include('../layouts/Ufooter'); -%>

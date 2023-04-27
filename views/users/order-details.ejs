@@ -1,0 +1,424 @@
+<%- include('../layouts/Uheader'); -%>
+<style>
+    #order td ,#order th{
+    text-align: center;
+    width: 200px;
+    }
+</style>
+
+        <!-- Breadcrumb Section Begin -->
+        <section class="breadcrumb-option">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="breadcrumb__text">
+                            <h4>Order success</h4>
+                            <div class="breadcrumb__links">
+                                <a href="/home">Home</a>
+                                <span>success</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Breadcrumb Section End -->
+
+        <div class="container my-5 fw-bold">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card shadow" style="padding-left: 23px">
+                  <div class="card-header">
+                    <h3 class="text-center">View order</h3>
+                    <a href="/profile" class="btn-3 float-end"><button class="fa fa-reply">Back</button></a>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <h4>Shipping Details</h4>
+                        <hr />
+                        <label class="mt-2 mb-2"> Name</label>
+                        <div class="border p-1 mb-3"><%=order.shippingAddress.name%></div>
+                        <label class="mt-2 mb-2">Email</label>
+                        <div class="border p-1 mb-3"><%=order.shippingAddress.email%></div>
+                        <label class="mt-2 mb-2">Phone Number</label>
+                        <div class="border p-1 mb-3"><%=order.shippingAddress.mobilenumber%></div>
+                        <label class="mt-2 mb-2">Delivery Address</label>
+                        <div class="border p-1 mb-3">
+                            <%=order.shippingAddress.housename%>,<%=order.shippingAddress.city %>,<%=order.shippingAddress.district%>,<%=order.shippingAddress.state%>,<%=order.shippingAddress.pincode%> <br />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <h4>Order Details</h4>
+                        <div style="overflow: scroll;">
+                            <table>
+                                <thead class="">
+                                    <tr id="order" class="" style="height: 50px;">
+                                          <th scope="col" class="">PRODUCT</th>
+                                          <th scope="col" class="">TOTAL</th>
+                                          <th scope="col" class="">STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <% for( let i = 0; i < order.products.length; i++ ) { %>
+                                        
+                            
+                                <tr id="order" class="mb-1">
+                                    <td class="product__cart__item">
+                                        <div class="product__cart__item__pic">
+                                            <a href="/product-detail?id=<%= order.products[i].productId._id %>"><img src="product_img/<%=order.products[i].productId.images[0]%>" style="width: 70px;height: 70px; object-fit: cover;"></a>
+                                        </div>
+                                        <div class="product__cart__item__text">
+                                            <h6><b><%= order.products[i].productId.title %></b></h6>
+                                            <h6><b>No:<%=order.products[i].quantity %> , <span>Size: <%=order.products[i].size %></span></b></h5>
+                                                <h6><b>₹<%= order.products[i].productId.price %></b></h5>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price">₹ <%=order.products[i].price  %>.00</td>
+                                    <td class="quantity__item w-auto" id="productstatus<%= order.products[i].productId._id %>">
+                                        <% if (order.status === 'Confirmed' || order.status === 'Shipped') { %>
+                                            <span class="fas fa-circle text-primary small mr-1"></span> <%= order.status %>
+                                        <% } else if (order.status === 'Delivered') { %>
+                                            <span class="fas fa-circle text-success small mr-1"></span> <%= order.status %>
+                                        <% } else { %>
+                                            <span class="fas fa-circle text-danger small mr-1"></span> <%= order.status %>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                       
+                        <hr />
+                        <div class="fw-bold">
+                        <br />
+                        <h5>Discount: ₹<span class="text-success"><%=order.discount  %>.00</span></h5><br>
+                        <h5 class="">
+        
+                          Grand Total: <span> ₹<%=order.GrandTotal  %>.00 - <%=order.discount  %>.00 : <span class="text-primary">₹<%=order.GrandTotal-order.discount  %>.00</span>  </span>
+                          <br />
+                          </h5>
+                          <br />
+                          <h6>Payment Mode : <%=order.paymentType %></h6>
+                         
+                          <br/>
+                          <!-- {% elif order.status == 'Pending' %} -->
+                           
+
+                          <!-- {% else %}
+                          <h6>
+                            Order Status:
+                            <span class="text-success">{{order.status}}</span>
+                          </h6>
+                          <br />
+                          {% endif %} -->
+                          <h6><b>Order Id :</b>  <%=order._id %></h6>
+                          <br />
+                          <td class="quantity__item">
+                            <% if (order.status === 'Confirmed' || order.status === 'Shipped') { %>
+                                <button class="site-btn bg-danger" id="cancelbtn<%= order._id %>" onclick="orderCancel('<%=order._id %>')">cancel order </button>
+                                <p class="text-primary fw-bold" style="display: none;" id='status-text<%= order._id %>'></p> 
+                               
+                              <% }else if (order.status === 'Delivered'){ %>
+    
+                                    <% const deliveryDate = new Date(order.deliveredDate); %>
+                                    <% const currentDate = new Date(); %>
+                                    <% const daysSinceDelivery = Math.ceil((currentDate - deliveryDate) / (1000 * 60 * 60 * 24)); %>
+                                    <% const returnPeriod = 7; // number of days allowed for returns %>
+                                    <% if (daysSinceDelivery < returnPeriod) { %>
+                                        <button class="site-btn bg-danger" id="returnbtn<%= order._id %>" onclick="orderReturn('<%=order._id %>')">Return order</button>
+                                        <p id="return-date<%= order._id %>"><strong>Return date:</strong> <%= new Date(deliveryDate.setDate(deliveryDate.getDate() + returnPeriod)).toLocaleDateString() %></p>
+                                        <p class="text-primary fw-bold" style="display: none;" id="status-text<%= order._id %>"></p> 
+                                    <% }%>
+                                <% }else{ %>
+                                <p class="text-primary fw-bold"  id="status-text">Order have been <span class="text-danger "><strong> "<%=order.status%>"</strong></span></p>
+                                <% } %>
+                            <br />
+                        <!-- {% if order.status != 'Cancelled' and order.status != 'Returned' %} -->
+                          <h6>
+                        <!--  -->
+                          </h6>
+                        <!-- {% else %}
+                        <a href="#" class="btn btn-secondary btn-sm disabled" role="button" aria-disabled="true">Cancelled</a>
+                        <h6 class="mt-3 font-weight-bold">Refund ID : {{order.payment.refund_id}}</h6>
+                        {% endif %} -->
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Wishlist</h5>
+        </div>
+        <div class="modal-body" id="modal-body">
+        <!-- Response message will be displayed here -->
+        </div>
+        <div class="modal-footer">
+            <h1>           </h1>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- confirmationModal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+        </div>
+        <div class="modal-body" >
+          Are you sure about this?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"   id="closebtn">Cancel</button>
+          <button type="button" class="btn btn-dark" id="confirmBtn">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+        function orderCancel(orderId) {
+    if (orderId) {
+        // show confirmation modal
+        $('#confirmationModal').modal('show');
+
+        // listen to click event on confirm button in modal
+        $('#confirmBtn').on('click', function() {
+            $('#confirmationModal').modal('hide');
+        // make fetch request to cancel order
+        fetch(`/order-cancel?orderId=${orderId}`, {
+            method: 'GET',
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success){
+                const modalBody = document.querySelector('#modal-body');
+                modalBody.textContent = data.message;
+                // show success modal
+                $('#myModal').modal('show');
+                const cancelbtn = document.getElementById(`cancelbtn${orderId}`);
+                cancelbtn.style.display = "none";
+                const statustext = document.getElementById(`status-text${orderId}`);
+                statustext.innerHTML = 'Order has been <span class="text-danger "><strong>"Canceled"</strong></span>';
+                statustext.style.display = "block";
+                const productstatus = document.getElementById(`productstatus${orderId}`);
+                productstatus.innerHTML = '<span class="fas fa-circle text-danger small mr-1"></span> Cancelled';
+               
+                setTimeout(function() {
+                $('#myModal').modal('hide');
+                }, 5000); // 5000 milliseconds (5 seconds)
+            }else{
+                const modalBody = document.querySelector('#modal-body');
+                modalBody.textContent = data.message;
+                $('#myModal').modal('show');
+                setTimeout(function() {
+                $('#myModal').modal('hide');
+                }, 5000); // 5000 milliseconds (5 seconds)
+            }
+            // show success modal
+            $('#myModal').modal('show');
+            setTimeout(function() {
+            $('#myModal').modal('hide');
+            }, 5000); // 5000 milliseconds (5 seconds)
+        })
+        .catch(error => {
+            console.error(error);
+        });
+        });
+    } else {
+        const modalBody = document.querySelector('#modal-body');
+        modalBody.textContent = "error";
+        $('#myModal').modal('show');
+        setTimeout(function() {
+        $('#myModal').modal('hide');
+        }, 5000); // 5000 milliseconds (5 seconds)
+    }
+}   
+    
+////////////////////////////////////////
+
+function orderReturn(orderId) {
+    if (orderId) {
+        // show confirmation modal
+        $('#confirmationModal').modal('show');
+
+        // listen to click event on confirm button in modal
+        $('#confirmBtn').on('click', function() {
+            $('#confirmationModal').modal('hide');
+        // make fetch request to cancel order
+        fetch(`/order-return?orderId=${orderId}`, {
+            method: 'GET',
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const modalBody = document.querySelector('#modal-body');
+            modalBody.textContent = data.message;
+            if(data.success){
+
+                const returnbtn = document.getElementById(`returnbtn${orderId}`);
+                returnbtn.style.display = "none";
+                const statustext = document.getElementById(`status-text${orderId}`);
+                statustext.innerHTML = 'Order has been <span class="text-danger "><strong>"Returned"</strong></span>';
+                statustext.style.display = "block";
+                const productstatus = document.getElementById(`productstatus${orderId}`);
+                productstatus.innerHTML = '<span class="fas fa-circle text-danger small mr-1"></span> Returned';
+                return-date
+                const returndate = document.getElementById(`return-date${orderId}`);
+                returndate.style.display = "none";
+                // show success modal
+                $('#myModal').modal('show');
+                setTimeout(function() {
+                $('#myModal').modal('hide');
+                }, 5000); // 5000 milliseconds (5 seconds)
+            }else{
+                $('#myModal').modal('show');
+                setTimeout(function() {
+                $('#myModal').modal('hide');
+                }, 5000); // 5000 milliseconds (5 seconds)
+            }
+            // const modalBody = document.querySelector('.modal-body');
+            // modalBody.textContent = data.message;
+            // if(data.updated){
+            //     console.log('jbdkdjbf');
+            //     const btn_shipped = document.getElementById(`shipping-btn${productId}`);
+            //     btn_shipped.style.display = 'none';
+            //     const btn_delvery = document.getElementById(`delivery-btn${productId}`);
+            //     btn_delvery.style.display = 'block';
+            //     const div_ship = document.getElementById(`Confirmed${productId}`);
+            //     div_ship.textContent = "Shipped";
+            // }
+            // console.log(data.mainstatus);
+            // if(data.mainstatus){
+            //     console.log('jbdkdjbf');
+
+            //     const mainstatus = document.getElementById('mainstatus');
+            //     mainstatus.textContent = "Shipped"
+            // }
+
+            // show success modal
+            $('#myModal').modal('show');
+            setTimeout(function() {
+            $('#myModal').modal('hide');
+            }, 5000); // 5000 milliseconds (5 seconds)
+        })
+        .catch(error => {
+            console.error(error);
+        });
+        });
+    } else {
+        const modalBody = document.querySelector('#modal-body');
+        modalBody.textContent = "error";
+        $('#myModal').modal('show');
+        setTimeout(function() {
+        $('#myModal').modal('hide');
+        }, 5000); // 5000 milliseconds (5 seconds)
+    }
+    }
+
+    $(document).on('click', '#closebtn', function(){
+        $('#confirmationModal').modal('hide');
+    });
+</script>
+
+<!-- Footer Section Begin -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="footer__about">
+                    <div class="footer__logo">
+                        <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                    </div>
+                    <p>The customer is at the heart of our unique business model, which includes design.</p>
+                    <a href="#"><img src="img/payment.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                <div class="footer__widget">
+                    <h6>Shopping</h6>
+                    <ul>
+                        <li><a href="#">Clothing Store</a></li>
+                        <li><a href="#">Trending Shoes</a></li>
+                        <li><a href="#">Accessories</a></li>
+                        <li><a href="#">Sale</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="footer__widget">
+                    <h6>Shopping</h6>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Payment Methods</a></li>
+                        <li><a href="#">Delivary</a></li>
+                        <li><a href="#">Return & Exchanges</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                <div class="footer__widget">
+                    <h6>NewLetter</h6>
+                    <div class="footer__newslatter">
+                        <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                        <form action="#">
+                            <input type="text" placeholder="Your email">
+                            <button type="submit"><span class="icon_mail_alt"></span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="footer__copyright__text">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    <p>Copyright ©
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>2020
+                        All rights reserved | This template is made with <i class="fa fa-heart-o"
+                        aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    </p>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Section End -->
+
+<% if (user) { %>
+    <p style="display: none;" id="nameuser"><%= user.Username %></p>
+<% }else{ %>
+    <p style="display: none;" id="nameuser"></p>
+
+<% } %>
+
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+<%- include('../layouts/Ufooter'); -%>

@@ -1,0 +1,237 @@
+<%- include('../layouts/Uheader'); -%>
+
+
+        <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Favouret</h4>
+                        <div class="breadcrumb__links">
+                            <a href="/home">Home</a>
+                            <a href="/shop">Shop</a>
+                            <span>Shopping Wishlist</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+
+
+                    <%  if ( wishlists && wishlists.Products.length != 0  ) { %>
+                        <% for( let i = 0; i < wishlists.Products.length; i++ ) { %>
+
+                            <div class="col-lg-4 col-md-6 col-sm-12" id="<%= wishlists.Products[i].productId._id %>">
+                                <div class="product__item">
+                                        <div class="product__item__pic d-flex" style="background-image: url('product_img/<%= wishlists.Products[i].productId.images[0] %>');
+                                        height: 450px;
+                                        flex-direction: row-reverse;
+                                        background-size: cover;
+                                        background-position: top;;">
+                                        <button  class="wishlist_remove text-white deleteButton" onclick="removeWishlist('<%= wishlists.Products[i].productId._id %>')"><span><i class="fa fa-close" ></i></span></button>             
+                                    </div>
+                                    <div class="product__item__text">
+                                        <a href="/product-detail?id=<%= wishlists.Products[i].productId._id %>"><h6><%= wishlists.Products[i].productId.title %></h6></a>
+                                        <h5>₹<%= wishlists.Products[i].productId.price %></h5>
+                                        <div class="d-flex">
+                                            <select class="m-1 sizeselecter" name="size" style="width: 100px;height: 48px; font-size: 14px;" >
+                                                <% for( let j = 0; j < wishlists.Products[i].productId.size.length; j++ ) { %>
+                                                <option value="<%= wishlists.Products[i].productId.size[j] %>" class="text-center"> SIZE <%= wishlists.Products[i].productId.size[j] %></option>
+                                                <% } %>   
+                                            </select>
+                                            <button id="<%= wishlists.Products[i].productId._id %>" class="w-25 m-1 rounded border-0 ds addToCartButton">
+                                                <img class="addToCartButton" src="img/icon/cart.png" alt="" id="<%= wishlists.Products[i].productId._id %>">
+                                            </button>
+
+                                        </div>
+                                        <!-- <div class="product__color__select"> -->
+                                            
+                                            <div class="product__color__select">
+                                                <% for (let j = 0; j < wishlists.Products[i].productId.color.length; j++) { %>
+                                                    <label for="pc-<%= j+1 %>"  style="background-color:<%=wishlists.Products[i].productId.color[j]%>">
+                                                      <input type="radio" id="pc-<%= i+1 %>-<%= j+1 %>" name="product-color">
+                                                    </label>
+                                                  <% } %>
+                                            </div>
+                                            <!-- <label class="active black" for="pc-2">
+                                                <input type="radio" id="pc-2">
+                                            </label>
+                                            <label class="grey" for="pc-3">
+                                                <input type="radio" id="pc-3">
+                                            </label> -->
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }else{ %>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="product__item">
+                                <div class="product__item__pic d-flex justify-content-center align-items-center" style="background-image: url('product_img/');border:dotted 2px;
+                                    height: 300px;
+                                    flex-direction: column;">             
+            
+                                    <h3>ADD PRODUCTS</h3>
+                                    <a href="/shop" class=" mt-5"><span><i class="fa-sharp fa-regular fa-plus fa-lg" style="font-size: 80px; color: rgb(94, 89, 89);"></i></span></a>
+                                </div>
+                                <h5 class="text-danger"> wishlist item missing!!</5>
+                            </div>
+                        </div>
+                    <% } %>
+
+                    <div class="col-lg-4 col-md-6 col-sm-12" style="display: none;" id="noneitems">
+                        <div class="product__item">
+                            <div class="product__item__pic d-flex justify-content-center align-items-center" style="background-image: url('product_img/');border:dotted 2px;
+                                height: 300px;
+                                flex-direction: column;">             
+        
+                                <h3>ADD PRODUCTS</h3>
+                                <a href="/shop" class=" mt-5"><span><i class="fa-sharp fa-regular fa-plus fa-lg" style="font-size: 80px; color: rgb(94, 89, 89);"></i></span></a>
+                            </div>
+                            <h5 class="text-danger"> wishlist item missing!!</5>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Wishlist</h5>
+            </div>
+            <div class="modal-body">
+            <!-- Response message will be displayed here -->
+            </div>
+            <div class="modal-footer">
+                <h1>           </h1>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                        </div>
+                        <p>The customer is at the heart of our unique business model, which includes design.</p>
+                        <a href="#"><img src="img/payment.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Clothing Store</a></li>
+                            <li><a href="#">Trending Shoes</a></li>
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Sale</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Payment Methods</a></li>
+                            <li><a href="#">Delivary</a></li>
+                            <li><a href="#">Return & Exchanges</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>NewLetter</h6>
+                        <div class="footer__newslatter">
+                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                            <form action="#">
+                                <input type="text" placeholder="Your email">
+                                <button type="submit"><span class="icon_mail_alt"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="footer__copyright__text">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        <p>Copyright ©
+                            <script>
+                                document.write(new Date().getFullYear(2022));
+                            </script>2020
+                            All rights reserved | This template is made with <i class="fa fa-heart-o"
+                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        </p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <% if (user) { %>
+        <p style="display: none;" id="nameuser"><%= user.Username %></p>
+    <% }else{ %>
+        <p style="display: none;" id="nameuser"></p>
+
+    <% } %>
+
+    
+    <script>
+        const addToCartButtons = document.querySelectorAll('.addToCartButton');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', event => {
+                const productId = event.target.getAttribute('id');
+                const sizeSelect = event.target.previousElementSibling;
+                const selectedSize = sizeSelect.options[sizeSelect.selectedIndex].value;
+                
+                fetch(`/cart?id=${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        quantity: 1,
+                        size: selectedSize
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                    const modalBody = document.querySelector('.modal-body');
+                    modalBody.textContent = data.message;
+                    $('#myModal').modal('show');
+                    setTimeout(function() {
+                        $('#myModal').modal('hide');
+                    }, 5000); // 5000 milliseconds (5 seconds)
+                }else{
+
+                    location.href ='/login'
+                }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+        });
+    </script>
+
+
+    <%- include('../layouts/Ufooter'); -%>

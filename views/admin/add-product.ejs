@@ -1,0 +1,242 @@
+<%- include('../layouts/aHeader'); -%>
+<style>
+  .error{
+    font-size: 12px;
+    color: red;
+  }
+</style>
+    <div class="container tm-mt-big tm-mb-big">
+      <div class="row">
+        <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+          <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="tm-block-title d-inline-block">Add Product</h2>
+              </div>
+            </div>
+            <div class="row tm-edit-product-row">
+              <div class="col-xl-6 col-lg-6 col-md-12">
+                <form action="/admin/product/add-product" id="this_form" method="post" class="tm-edit-product-form"
+                  enctype="multipart/form-data">
+                  <div class="form-group mb-3">
+                    <label for="name">Product Name
+                    </label>
+                    <input id="name" name="name" type="text" class="form-control validate" required />
+                    <span class="error" id="name-error"></span>
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="brand">Brand
+                    </label>
+                    <input id="brand" name="brand" type="text" class="form-control validate" required />
+                    <span class="error" id="brand-error"></span>
+
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="description">Description</label>
+                    <textarea class="form-control validate" rows="3" required name="description" id="description"></textarea>
+                    <span class="error" id="description-error"></span>
+
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="category">Category</label>
+                    <select class="custom-select tm-select-accounts" id="category" name="category">
+                      <option selected>Select category</option>
+                      <% for( let i=0; i < categorys.length; i++ ) { %>
+                        <option value="<%= categorys[i].name %>">
+                          <%= categorys[i].name %>
+                        </option>
+                        <% } %>
+                    </select>
+                    <span class="error" id="category-error"></span>
+                  </div>
+                  <div class="row">
+                    <div class="form-group mb-3 col-xs-12 col-sm-6">
+                      <label for="expire_date">Price (₹)
+                      </label>
+                      <input id="price" name="price" type="text" class="form-control validate"
+                        data-large-mode="true" min="1" />
+                    <span class="error" id="price-error"></span>
+
+                    </div>
+                    <div class="form-group mb-3 col-xs-12 col-sm-6">
+                      <label for="stock">Quantity
+                      </label>
+                      <input id="stock" name="stock" type="text" class="form-control validate" min="1" required />
+                    <span class="error" id="stock-error"></span>
+
+                    </div>
+                  </div>
+
+              </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+                <div class="custom-file mt-3 mb-3">
+                  <input id="fileInput" name="images" type="file" style="display:none;" accept="image/*" capture="camera" multiple />
+                  <input type="button" class="btn btn-primary btn-block mx-auto"
+                    style="background-color: rgb(158, 156, 156);" value="UPLOAD PRODUCT IMAGE"
+                    onclick="document.getElementById('fileInput').click();" />
+                </div>
+                <span class="error" id="fileInput-error"></span>
+
+                <div class="form-group mb-3 text-white">
+                  <label for="category">Size</label>
+
+                  <div class="d-flex justify-content-center">
+                    <input type="checkbox" class="mt-2" id="size" name="size" value="S"><label class="p-2 " for=""> S </label>
+                    <input type="checkbox" class="mt-2" id="size" name="size" value="M"><label class="p-2" for=""> M </label>
+                    <input type="checkbox" class="mt-2" id="size" name="size" value="L"><label class="p-2" for=""> L </label>
+                    <input type="checkbox" class="mt-2" id="size" name="size" value="XL"><label class="p-2 " for=""> Xl </label>
+                  </div>
+                  <span class="error" id="size-error"></span>
+
+                </div>
+
+                <div class="form-group mb-3 text-white">
+                  <label for="category">Color</label>
+                  <div class="d-flex justify-contet-center ">
+                    <div id="input-container">
+                      <input type="color" class="me-4 round-input" name="color">
+
+
+
+                      <!-- <input type="color" class="me-4  round-input" name="color"> -->
+                      <!-- <input type="color" class="me-4 round-input" name="color">
+                      <input type="color" class="me-4 round-input" name="color">
+                      <input type="color" class="me-4 round-input" name="color">
+                      <input type="color" class="me-4 round-input" name="color"> -->
+                      <!-- <input type="color" class="me-4  round-input" name="color"> -->
+                      <button type="button" id="add-input"
+                        style="color: rgb(255, 255, 255); border: none; outline: none;background: none;">
+                        <span><i class="fa-solid fa-plus"></i></span></button>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class=" ">
+                <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.getElementById('navProducts').classList = 'nav-link active';
+
+$(document).ready(function() {
+    $('#this_form').submit(function(e) {
+      e.preventDefault();
+  
+      var error = false;
+  
+      // Validate full name
+      var name = $('#name').val().trim();
+        if (!name) {
+          $('#name-error').text('Please enter your full name');
+          error = true;
+          $('#name')
+      } else {
+        $('#name-error').text('');
+      }
+  
+      // Validate house name
+      var brand = $('#brand').val();
+      if (!brand) {
+        $('#brand-error').text('Please enter your valid brand');
+        error = true;
+      } else {
+        $('#brand-error').text('');
+      }
+  
+      // Validate pincode
+      var description = $('#description').val();
+      console.log($('#description').val());
+      if (!description) {
+        $('#description-error').text('Please enter a valid description ');
+        error = true;
+      } else {
+        $('#description-error').text('');
+      }
+  
+      // Validate city
+      var city = $('#category').val();
+      if (!category) {
+        $('#category-error').text('Please enter valid category');
+        error = true;
+      } else {
+        $('#category-error').text('');
+      }
+  
+      // Validate district
+            var price = $('#price').val();
+      console.log($('#price').val());
+      if (!price || price <= 0) {
+        $('#price-error').text('Please enter a valid price');
+        error = true;
+      } else {
+        $('#price-error').text('');
+      }
+
+        // Validate stock
+        var stock = $('#stock').val();
+        if (!stock || stock <= 0) {
+          $('#stock-error').text('Please enter a valid stock');
+          error = true;
+        } else {
+          $('#stock-error').text('');
+        }
+                        // Validate state
+        var fileInput = $('#fileInput');
+        var fileName = fileInput.val();
+        var fileExt = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+        if (!fileInput || !fileName || !(fileExt == "jpg" || fileExt == "jpeg" || fileExt == "png" || fileExt == "gif")) {
+          $('#fileInput-error').text('Please add a valid image file (JPG, JPEG, PNG, or GIF)');            error = true;
+          } else {
+            $('#fileInput-error').text('');
+          }
+
+        var size = $('#size').val();
+        if (!size) {
+            $('#size-error').text('Please add valid size');
+            error = true;
+        } else {
+            $('#size-error').text('');
+        }
+    
+      // Submit the form if no errors
+      if (!error) {
+        this.submit();
+      }
+    });
+  });
+      const MAX_INPUTS = 6; // Maximum number of inputs allowed
+      const inputContainer = document.querySelector('#input-container');
+      const addButton = document.querySelector('#add-input');
+
+      const form = document.getElementById('this_form')
+
+      // Add a click event listener to the button
+      addButton.addEventListener('click', () => {
+        const inputs = inputContainer.querySelectorAll('input[type="color"]');
+        if (inputs.length < MAX_INPUTS) {
+          const newInput = document.createElement('input');
+          newInput.type = 'color';
+          newInput.className = 'me-4 round-input';
+          newInput.name = 'color';
+          newInput.setAttribute('form', 'this_form')
+          inputContainer.insertBefore(newInput, addButton)
+
+
+          // Disable the button if the maximum number of inputs have been added
+          if (inputs.length === MAX_INPUTS - 1) {
+            addButton.disabled = true;
+          }
+        }
+      });
+    </script>
+  </body>
+
+  <%- include('../layouts/aFooter'); -%>

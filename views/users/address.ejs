@@ -1,0 +1,200 @@
+<%- include('../layouts/Uheader'); -%>
+
+ <!-- Breadcrumb Section Begin -->
+ <section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Check Out</h4>
+                    <div class="breadcrumb__links">
+                        <a href="./index.html">Home</a>
+                        <a href="./shop.html">Shop</a>
+                        <span>Check Out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<style>
+    .card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+</style>
+
+
+<section class="checkout spad" style="border: 10px black;">
+    <div class="container" >
+        <div class="checkout__form">
+                <div class="row ">
+                    <% if (user.addresses.length != 0) { %>
+                        <% for( let i = 0; i < user.addresses.length; i++ ) { %>
+                            <div class="col-lg-3 col-md-6 col-sm-12 mb-4" id="<%= i %>">
+                                <div class="card d-flex justify-content-center align-items-center">
+                                    <button class="wishlist_remove deleteButton ms-auto" id="<%= i %>"><span><i class="fa fa-close" id="<%= i %>"></i></span></button>
+                                    <a href="/checkout?index=<%= i %>">    
+                                    <p><%= user.addresses[i].name %></p>
+                                    <p><%= user.addresses[i].email %></p>
+                                    <p><%= user.addresses[i].houseName %></p>
+                                    <p><%= user.addresses[i].city %></p>
+                                    <p><%= user.addresses[i].district %>,<%= user.addresses[i].state %></p>
+                                    <p><%= user.addresses[i].zip %></p>
+                                    <p><%= user.addresses[i].mobilNumber %></p>
+                                    <a class="wishlist_remove  ms-auto bg-success text-white" href="/address-add?index=<%= i %>"><span><i class="fa fa-edit"></i></span></a>
+                                </div>
+                            </a>
+                            </div> 
+                        <% } %>
+                    <% } %>
+                    
+                            <div class="col-lg-3 col-md-6 col-sm-12 card">
+                                <a href="/address-add">
+                                    <div class="product__item">
+                                        <div class="product__item__pic d-flex justify-content-center align-items-center" style="
+                                            height: 280px;
+                                            flex-direction: column;">             
+                                            <h4>ADD ADDRESS</h4>
+                                            <a href="/address-add" class=" mt-5"><span><i class="fa-sharp fa-regular fa-plus fa-lg" style="font-size: 70px; color: rgb(94, 89, 89);"></i></span></a>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>                   
+                </div>
+        </div>
+    </div>
+</section>
+<p style="display: none;" class="modalmessage"><%= message %></p>
+<p style="display: none;" class="modalmessage"></p>
+
+<!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ADDRESS</h5>
+            </div>
+            <div class="modal-body">
+            <!-- Response message will be displayed here -->
+            </div>
+            <div class="modal-footer">
+                <h1>           </h1>
+            </div>
+        </div>
+        </div>
+    </div>
+<!-- Footer Section Begin -->
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="footer__about">
+                    <div class="footer__logo">
+                        <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                    </div>
+                    <p>The customer is at the heart of our unique business model, which includes design.</p>
+                    <a href="#"><img src="img/payment.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                <div class="footer__widget">
+                    <h6>Shopping</h6>
+                    <ul>
+                        <li><a href="#">Clothing Store</a></li>
+                        <li><a href="#">Trending Shoes</a></li>
+                        <li><a href="#">Accessories</a></li>
+                        <li><a href="#">Sale</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="footer__widget">
+                    <h6>Shopping</h6>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Payment Methods</a></li>
+                        <li><a href="#">Delivary</a></li>
+                        <li><a href="#">Return & Exchanges</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                <div class="footer__widget">
+                    <h6>NewLetter</h6>
+                    <div class="footer__newslatter">
+                        <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                        <form action="#">
+                            <input type="text" placeholder="Your email">
+                            <button type="submit"><span class="icon_mail_alt"></span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="footer__copyright__text">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    <p>Copyright ©
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>2020
+                        All rights reserved | This template is made with <i class="fa fa-heart-o"
+                        aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    </p>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Section End -->
+
+<% if (user) { %>
+    <p style="display: none;" id="nameuser"><%= user.Username %></p>
+<% }else{ %>
+    <p style="display: none;" id="nameuser"></p>
+
+<% } %>
+
+
+<script>
+    const deleteButton = document.querySelectorAll('.deleteButton');
+        deleteButton.forEach(button => {
+            button.addEventListener('click', event => {
+                const index = event.target.getAttribute('id');
+                console.log(index);
+                fetch(`/address/remove?index=${index}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const modalBody = document.querySelector('.modal-body');
+                    modalBody.textContent = data.message;
+                    const divToRemove = document.getElementById(index);
+                    divToRemove.remove();
+                    $('#myModal').modal('show');
+                    setTimeout(function() {
+                        $('#myModal').modal('hide');
+                    }, 5000); // 5000 milliseconds (5 seconds)
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+        });
+</script>
+<%- include('../layouts/Ufooter'); -%>

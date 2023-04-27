@@ -1,0 +1,243 @@
+<%- include('../layouts/Uheader'); -%>
+
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Order success</h4>
+                    <div class="breadcrumb__links">
+                        <a href="/home">Home</a>
+                        <span>success</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+
+<section class=" d-flex justify-content-center">
+    <div class="container card  p-4 ">
+        <div class="row ">
+            <div class="col-12 mb-3">
+                        <% if(!order || order == null) {%>
+
+                            <div class="common-block text-center mb-5">
+                                <div class="mb-5 success-checkmark-bg">
+                                    <i class="checkmark success-checkmark">✓</i>                    
+                                </div>
+                                <h1 class="success-title mb-3">Success</h1> 
+                                <div class="inner-title fw-bold">
+                                    <h3 class="mb-5" >Thank you for your order!</h3>
+                                </div>
+                                <h4 class="lead mb-5 success-text fw-bold">
+                                     We received your purchase request;<br>Thank you for your payment.we'll be in touch shortly!.
+                                </h4>
+                                <a href="/home" class=" btn btn-primary " style="left: 0; position: absolute;">Back to home</a>
+              
+                                    <a href="/order-details?id=<%= orderId %>" class="btn tn btn-primary ml-auto"  style="right: 0; position: absolute;">Track your order</a>                       
+                            </div>  
+                    <% }else{%>
+                        <div class="common-block text-center mb-5">
+                            <div class="mb-5 success-checkmark-bg">
+                                    <i  class="fas fa-spinner fa-pulse" id="loding" style="font-size: 200px;"></i>
+                                    <i class="checkmark success-checkmark" id="success-checkmark" style="display: none;">✓</i>
+                            </div>
+                            <div class="error-div">    
+                                <h1 class="error-title mb-3 text-danger">oopss !!</h1> 
+                                <h4 class="inner-title fw-bold">somthing is missing try again</h4>
+                            </div>
+                                <h1 class="success-title mb-3" style="display: none;">Success</h1> 
+                            <div class="" style="display: none;" id="success-textes">
+                                <div class="inner-title fw-bold">
+                                    <h3 class="mb-5" >Thank you for your order!</h3>
+                                </div>
+                                <h4 class="lead mb-5 success-text fw-bold">
+                                    We received your purchase request;<br>Thank you for your payment.we'll be in touch shortly!.
+                                </h4>
+                           </div>
+                            <a href="/home" class=" btn btn-primary " style="left: 0; position: absolute;">Back to home</a>
+                  
+                                <a  class="btn tn btn-primary ml-auto" id="order-details" style="right: 0; position: absolute; display: none;">Order Details</a>
+                        </div>
+
+                    <%}%>          
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Footer Section Begin -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="footer__about">
+                    <div class="footer__logo">
+                        <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                    </div>
+                    <p>The customer is at the heart of our unique business model, which includes design.</p>
+                    <a href="#"><img src="img/payment.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                <div class="footer__widget">
+                    <h6>Shopping</h6>
+                    <ul>
+                        <li><a href="#">Clothing Store</a></li>
+                        <li><a href="#">Trending Shoes</a></li>
+                        <li><a href="#">Accessories</a></li>
+                        <li><a href="#">Sale</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="footer__widget">
+                    <h6>Shopping</h6>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Payment Methods</a></li>
+                        <li><a href="#">Delivary</a></li>
+                        <li><a href="#">Return & Exchanges</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                <div class="footer__widget">
+                    <h6>NewLetter</h6>
+                    <div class="footer__newslatter">
+                        <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                        <form action="#">
+                            <input type="text" placeholder="Your email">
+                            <button type="submit"><span class="icon_mail_alt"></span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="footer__copyright__text">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    <p>Copyright ©
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>2020
+                        All rights reserved | This template is made with <i class="fa fa-heart-o"
+                        aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    </p>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Section End -->
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+
+<% if (user) { %>
+    <p style="display: none;" id="nameuser"><%= user.Username %></p>
+<% }else{ %>
+    <p style="display: none;" id="nameuser"></p>
+
+<% } %>
+
+
+<!-- Js Plugins -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+    let orderData='<%=JSON.stringify(order)%>'
+                console.log(orderData,'JSHFKJDGH')
+                if(orderData){
+
+                    orderData=JSON.parse(orderData.replace(/&#34;/g, '"'));
+                }
+                $(document).ready(()=>{
+                    if(orderData){
+                        x()
+                    }
+                })
+                console.log(orderData)
+
+                var options = {
+        "key": "rzp_test_XAmcvH8COqaYws", // Enter the Key ID generated from the Dashboard
+        "amount": orderData.amount*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "STAR BOY",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": orderData.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response){
+        success()
+        },
+        "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9000090000"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+    // document.getElementById('rzp-button1').onclick = function(e){
+        function x(){
+        rzp1.open();
+    }
+    function success(){
+    $.ajax({
+        type:"GET",
+        url:"/razorpay",
+        contentType:'application/json',
+        success:function(data){
+            console.log('khjghg');
+            console.log(data.orderId)
+            const errordiv = document.querySelector('.error-div')
+            errordiv.style.display = 'none'
+            const loding = document.getElementById('loding')
+            loding.style.display = 'none'
+            const checkmark = document.getElementById('success-checkmark')
+            checkmark.style.display = 'block'
+            const success = document.querySelector('.success-title')
+            success.style.display = 'block'
+            const successtexts = document.getElementById('success-textes')
+            successtexts.style.display = 'block'
+            const orderDetails = document.getElementById('order-details');
+            orderDetails.style.display = 'block';
+            orderDetails.href = '/order-details?id=' + data.orderId;
+        }
+    })
+
+}
+            </script>
+<%- include('../layouts/Ufooter'); -%>
+

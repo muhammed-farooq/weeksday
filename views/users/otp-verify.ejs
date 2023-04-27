@@ -1,0 +1,37 @@
+<%- include('../layouts/header'); -%>
+
+<section class="vh-auto bg-dark  bgstyle">
+	<div class="container-xl ">
+	  <div class="row d-flex justify-content-center align-items-center vh-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div>
+          <div class="mt-0 text-center">
+            <h1 class="text-center fw-bold mb-5 text-white" id="h1">OTP LOGIN</h1>     
+            <form action="" method="post">
+
+              <div class="form-outline mb-3">
+                <input name="otp" type="number"  class="form-control rounded-pill form-control-lg input1" placeholder="OTP" />
+              </div>
+
+              <div>
+                <%if(mes!=null){ %>
+                  <small class="text-danger"><%= mes %></small>
+                  <%}%>
+              </div>
+
+              <div class="form-outline mb-3 ">
+                <button type="submit" class="form-control form-control-lg  btn rounded-pill submit" id="signup-btn">Submit</button>
+              </div>
+
+            </form>
+          </div>
+            <div class="form-outline mb-3">
+              <a href="login" type="submit" class="form-control form-control-lg  btn btn-secondary rounded-pill submit" >login with password</a>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> 
+
+<%- include('../layouts/footer'); -%>

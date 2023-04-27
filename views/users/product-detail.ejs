@@ -1,0 +1,281 @@
+<%- include('../layouts/Uheader'); -%>
+<style>
+#zoomC {
+  /* (A) DIMENSIONS */
+  width: 600px;
+  height: 338px;
+ 
+  /* (B) BACKGROUND IMAGE */
+
+  background-position: center;
+  background-size: cover;
+}
+    </style>
+    
+    <!-- Header Section Begin -->
+
+    <section class="shop-details">
+        <div class="product__details__pic">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product__details__breadcrumb">
+                            <a href="/">Home</a>
+                            <a href="/shop">Shop</a>
+                            <span>Product Details</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <!-- <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="product_img/">
+                                    </div>
+                                </a>
+                            </li> -->
+                            <% for( let i = 0; i <product.images.length; i++ ) { %>
+                                
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-<%= i+1 %>" role="tab">
+                                    <div class="product__thumb__pic" style="background-image: url('product_img/<%= product.images[i] %>');">
+                                    <img src="product_img/<%= product.images[i] %>" alt="" >
+                                    </div>
+                                </a>
+                            </li>                     
+                            <% } %>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-9">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="product__details__pic__item ">
+                                    <img src="product_img/<%= product.images[0] %>" alt="">
+                                </div>
+                            </div>
+                            <% for( let i = 0; i < product.images.length; i++ ) { %>
+                            
+
+                            <div class="tab-pane" id="tabs-<%= i+1%>" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="product_img/<%= product.images[i] %>" alt="" >
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="img-zoom-container">
+            <img id="myimage" src="/img/pexels-judah-visuals-12268732 11.jpg" width="300" height="240">
+            <div id="myresult" class="img-zoom-result"></div>
+          </div>
+           -->
+    <!-- Shop Details Section Begin -->
+    <section class="shop-details">
+        <div class="product__details__content">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="product__details__text">
+                            <h4><%= product.title %></h4>
+                            <h3>₹<%= product.price %>.00<span></span></h3>
+                            <div class="product__details__option">
+                                <div class="product__details__option__size">
+                                    <span>Size:</span>
+                                    <% for( let i = 0; i < product.size.length; i++ ) { %>
+                                    
+
+                                    <label for="<%= product.size[i] %>" class="btn_act"><%= product.size[i] %>
+                                        <input type="radio" id="">
+                                    </label>
+                                    <% } %>
+                                </div>
+                                <div class="product__details__option__color">
+                                    <span>Color:</span>
+                                    <% for( let i = 0; i < product.color.length; i++ ) { %>
+                                    <label class="" for="" style=" background-color:<%=product.color[i]%>;">
+                                        <input type="radio" id="">
+                                    </label>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <form action="">        
+                            <div class="p-t-33">
+                                <div class="flex-w flex-r-m p-b-10">
+                                    <p >To Add To Cart Choose A Size !!</p>
+                                    <div class=" mb-2" style="font-size: 18px;">
+                                        Size
+                                    </div>
+                                    <div class="size-204 respon6-next">
+                                        <div class="rs1-select2 bor8 bg0">
+                                            <select class=" mb-3" name="size" style="width: 250px;height: 38px;">
+                                                <% for( let i = 0; i < product.size.length; i++ ) { %>
+                                                <option value="<%= product.size[i] %>">SIZE <%= product.size[i] %></option>
+                                                <% } %>   
+                                            </select>
+                                            <div class="dropDownSelect2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-w flex-r-m p-b-10">
+                                </div>
+                                <div class="flex-w flex-r-m p-b-10">
+                                    <div class="size-204 flex-w flex-m respon6-next">
+                                        <div class="wrap-num-product flex-w m-r-20 m-tb-10">
+                                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                <i class="fs-16 zmdi zmdi-minus"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
+                            <div class="product__details__cart__option">
+                                <div class="quantity">
+                                    <div class="input-group">
+                                      <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary btn-minusD" type="button"><i class="fa fa-minus"></i></button>
+                                      </div>
+                                      <input type="number" class="form-control" name="quantity" value="1" min="1" max="<%= product.stocks %>"  style="width: 45px;" readonly>
+                                      <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary btn-plusD" type="button"><i class="fa fa-plus"></i></button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <button class="primary-btn" type="submit" id="<%= product._id %>"
+                                    title="To Add To Cart Choose A Size !">
+                              add to cart
+                            </button>
+                        </form>
+                            </div>
+                            <div class="product__details__btns__option">
+                                <a onclick="addToWishlist('<%= product._id %>')"><i class="fa fa-heart"></i> add to wishlist</a>
+
+                            </div>
+                            <div class="product__details__last__option">
+                                <h5><span>Guaranteed Safe Checkout</span></h5>
+                                <img src="img/shop-details/details-payment.png" alt="">
+                                <ul>
+                                    <li><span>SKU:</span> 3812912</li>
+                                    <li><span>Categories:</span> Clothes</li>
+                                    <li><span>Tag:</span> Clothes, Skin, Body</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product__details__tab">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tabs-5"
+                                    role="tab">Description</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Customer
+                                    Previews(5)</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab">Additional
+                                    information</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tabs-5" role="tabpanel">
+                                    <div class="product__details__tab__content">
+                                        <p class="note"><%= product.description  %>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title " id="exampleModalLabel">CART</h5>
+                </div>
+                <div class="modal-body">
+                <!-- Response message will be displayed here -->
+                </div>
+                <div class="modal-footer">
+                    <h1>           </h1>
+                </div>
+            </div>
+            </div>
+        </div>
+        <% if (user) { %>
+            <p style="display: none;" id="nameuser"><%= user.Username %></p>
+        <% }else{ %>
+            <p style="display: none;" id="nameuser"></p>
+    
+        <% } %>
+    
+    <script>
+        // Get the input element and the minus and plus buttons
+        const quantityInput = document.querySelector('input[name="quantity"]');
+        const minusButtonD = document.querySelector('.btn-minusD');
+        const plusButtonD = document.querySelector('.btn-plusD');
+        // Attach event listener to the minus button
+        minusButtonD.addEventListener('click', () => {
+        if (quantityInput.value > 1) {
+            quantityInput.value--;
+        }
+        });
+        const X = quantityInput.getAttribute('max')
+        // Attach event listener to the plus button
+        plusButtonD.addEventListener('click', () => {
+            
+            if (Number( quantityInput.value) < X) {
+
+            quantityInput.value++
+        }
+        });
+    </script>
+    <script>
+        const addToCartButton = document.querySelector('.primary-btn');
+
+        addToCartButton.addEventListener('click', event => {
+            event.preventDefault();
+
+            const sizeSelect = document.querySelector('select[name="size"]');
+            const quantityInput = document.querySelector('input[name="quantity"]');
+            const productId = event.target.getAttribute('id');
+
+            fetch(`/cart?id=${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                quantity: quantityInput.value,
+                size: sizeSelect.value
+            })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const modalBody = document.querySelector('.modal-body');
+                modalBody.textContent = data.message;
+                $('#myModal').modal('show');
+                setTimeout(function() {
+                   $('#myModal').modal('hide');
+                }, 5000); // 5000 milliseconds (5 seconds)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        });
+
+        
+        </script>
+    
+    <!-- Shop Details Section End -->
+<%- include('../layouts/Ufooter'); -%>

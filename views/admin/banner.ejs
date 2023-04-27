@@ -1,0 +1,167 @@
+<%- include('../layouts/aHeader'); -%>
+
+<div class="container tm-mt-big tm-mb-big">
+  <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-product-categories">
+            <h2 class="tm-block-title">Product Categories</h2>
+            <div class="tm-product-table-container">
+              <table class="table tm-table-small tm-product-table">
+                  <thead >
+                    <tr class="text-center">
+                      <th scope="col">NO</th>
+                      <th scope="col">IMG</th>                                  
+                      <th scope="col">TITLE</th>                                  
+                      <th scope="col">DELETE</th>                                 
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <% if (banners.length != 0) { %>
+                      <% for( let i = 0; i < banners.length; i++ ) { %>
+                        
+                        <tr class="text-center">
+                          <td class=""><%= i+1 %></td>
+                          <td class=""><img src="/product_img/<%= banners[i].images[0] %>" alt="" style="width: 60px;height: 60px; object-fit: cover;"></td>
+                          <td><%= banners[i].title %></td>
+                          <td>
+                            <a href="" id="del" class="tm-product-delete-link" data-bs-toggle="modal" data-bs-target="#exampleModal<%= i %>">
+                              <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                            </a>
+                          </td> 
+                        </tr>
+                          <!-- Modal -->
+                          <div class="modal fade" id="exampleModal<%= i %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  Are sure!!!!
+                                  Do you want to <span class="text-danger">delete</span> this banner 
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <a type="button" href="/admin/banner/delete?id=<%=  banners[i]._id %>" class="btn btn-dark" >Delete</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                      <% } %>
+                    <% }else{ %>
+                      <tr>
+                        <td class="tm-product-name">did'nt have any banners</td>
+                      </tr>
+                    <% } %>
+              
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+    <div class="col-lg-6  mx-auto tm-login-col">
+      <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h2 class="tm-block-title mb-4">To Add Banner</h2>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-12"> 
+            <form action="/admin/banner" method="post" enctype="multipart/form-data">
+              <div class="form-group mt-3 ">
+                <label
+                for="description"
+                >Title</label
+                >
+                <input
+                  name="title"
+                  type="text"
+                  class="form-control validate"
+                  id=""
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label
+                for="description"
+                >Description</label
+                >
+                <textarea
+                class="form-control validate"
+                rows="3"
+                name="description"
+                ></textarea>
+              </div>
+              <div class="custom-file mt-3 mb-3">
+                <input id="fileInput" name="images" type="file" style="display:none;" multiple/>
+                <input
+                  type="button"
+                  class="btn btn-img btn-block mx-auto h-auto"
+                  value="IMAGE"
+                  onclick="document.getElementById('fileInput').click();"
+                />
+              </div>
+              <div class="form-group mt-4 text-center">
+                <% if (msg != null) { %>
+                  <div>
+                 <small class="text-danger"><%= msg %></small>
+                  </div>
+                <% } %>
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block text-uppercase"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% if (mes != null) { %>
+  <script>
+        swal.fire({
+          title: "Oops" ,  
+          text: " <%= mes %> !",
+          icon: "error",
+          timer:5000
+        })
+</script>
+<% } %>
+<% if (message != null) { %>
+  <script>
+        swal.fire({
+          title: "Good job!",
+          text: " <%= message %> ",
+          icon: "success",
+          timer:1000,
+          showConfirmButton: false
+        })
+</script>
+<% } %>
+
+ <script>
+  document.getElementById('navBanner').classList = 'nav-link active';
+      
+      $(document).ready(function() {
+  // Add event listener to delete links
+  $('.tm-product-delete-link').click(function() {
+    // Get banner ID from data attribute
+    var bannerId = $(this).data('banner-id');
+    
+    // Update modal content with banner ID
+    $('#exampleModal .modal-footer a').attr('href', '/admin/banner/delete?id=' + bannerId);
+    $('#exampleModal .modal-body span.banner-id').text(bannerId);
+  });
+});
+
+
+</script> 
+
+
+  <%- include('../layouts/aFooter'); -%>

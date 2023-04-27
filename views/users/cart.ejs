@@ -1,0 +1,248 @@
+<%- include('../layouts/Uheader'); -%>
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Shopping Cart</h4>
+                        <div class="breadcrumb__links">
+                            <a href="/home">Home</a>
+                            <a href="/shop">Shop</a>
+                            <span>Shopping Cart</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="shopping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    <% if ( carts && carts.Products.length != 0 ) { %>
+                                    
+                        <% for( let i = 0; i < carts.Products.length; i++ ) { %>
+                            <tr id="<%= carts.Products[i].productId._id %>">
+                                <td class="product__cart__item">
+                                    <div class="product__cart__item__pic">
+                                        <a href="/product-detail?id=<%= carts.Products[i].productId._id %>"><img src="product_img/<%= carts.Products[i].productId.images[0] %>" alt=""style="width: 70px;height: 70px; object-fit: cover;"></a>
+                                    </div>
+                                    <div class="product__cart__item__text">
+                                        <h6><%= carts.Products[i].productId.title %></h6>
+                                        <h5>₹<%= carts.Products[i].productId.price %></h5>
+                                    </div>
+                                </td>
+                                <td class="quantity__item">
+                                    <div class="quantity ">
+                                        <div class="pro-qty-2 ">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                  <button class="btn btn-outline-secondary btn-minus" id="<%= carts.Products[i].productId._id %>" type="button"><i class="fa fa-minus"></i></button>
+                                                </div>
+                                                <input type="number" class="form-control" name="quantity" value="<%= carts.Products[i].quantity %>" min="1" max="<%= carts.Products[i].productId.stocks %>"  style="width: 40px;" readonly>
+                                                <div class="input-group-append">
+                                                  <button class="btn btn-outline-secondary btn-plus" type="button" id="<%= carts.Products[i].productId._id %>"><i class="fa fa-plus"></i></button>
+                                                </div>
+                                              </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="cart__price" id="product_<%= carts.Products[i].productId._id %>_price">₹<%= carts.Products[i].totalPrice %>.00</td>
+                                <td class="cart__close"><a onclick="removecart('<%= carts.Products[i].productId._id %>')"><i class="fa fa-close"></i></a></td>
+                            </tr>
+
+                        <% } %>
+                        <tr id="additemstocart" style="display: none;">
+                            <td class="product__cart__item text-danger" colspan="4">Cart items missing !!!</td>
+                        </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn update__btn">
+                            <a href="/shop"><i class="fa fa-spinner"></i> Add items</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="col-lg-4">
+                <div class="cart__discount">
+                    <h6>Discount codes</h6>
+                    <form action="#">
+                        <input type="text" placeholder="Coupon code">
+                        <button type="submit">Apply</button>
+                    </form>
+                </div>
+                <div class="cart__total">
+                    <h6>Cart total</h6>
+                    <ul>
+                        <li class="subtotal" >Subtotal <span>₹ <%= carts.GrandTotal %>.00</span></li>
+                        <% if (carts.coupon) { %>
+                         
+                            <li class="grandtotal ">Total <span class=" text-success"><%= carts.coupon.discount %>%</span></li>
+                            <li class="grandtotal">Total <span>₹ <%= carts.GrandTotal - carts.discount %>.00</span></li>
+                        <% }else{ %>
+                        <li class="grandtotal ">Total <span class=" text-success">0%</span></li>
+                        <li class="grandtotal">Total <span>₹ <%= carts.GrandTotal %>.00</span></li>
+                        <%} %>
+                    </ul>
+                    <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+                                <% }else{ %>
+                        <tbody>
+                            <tr id="additemstocart">
+                                <td class="product__cart__item text-danger" colspan="4">Cart items missing !!!</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn update__btn">
+                            <a href="/shop"><i class="fa fa-spinner"></i> Add items</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="cart__discount">
+                    <h6>Discount codes</h6>
+                    <form action="#">
+                        <input type="text" placeholder="Coupon code">
+                        <button type="submit">Apply</button>
+                    </form>
+                </div>
+                <div class="cart__total">
+                    <h6>Cart total</h6>
+                    <ul>
+                        <li>Subtotal <span>₹ 0.00</span></li>
+                        <li>Total <span>₹ 0.00</span></li>
+                    </ul>
+                    <!-- <a href="#" class="primary-btn">Proceed to checkout</a> -->
+                    <% } %>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Shopping Cart Section End -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Wishlist</h5>
+            </div>
+            <div class="modal-body">
+            <!-- Response message will be displayed here -->
+            </div>
+            <div class="modal-footer">
+                <h1>           </h1>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                        </div>
+                        <p>The customer is at the heart of our unique business model, which includes design.</p>
+                        <a href="#"><img src="img/payment.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Clothing Store</a></li>
+                            <li><a href="#">Trending Shoes</a></li>
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Sale</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Payment Methods</a></li>
+                            <li><a href="#">Delivary</a></li>
+                            <li><a href="#">Return & Exchanges</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>NewLetter</h6>
+                        <div class="footer__newslatter">
+                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                            <form action="#">
+                                <input type="text" placeholder="Your email">
+                                <button type="submit"><span class="icon_mail_alt"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="footer__copyright__text">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        <p>Copyright ©
+                            <script>
+                                document.write(new Date().getFullYear(2022));
+                            </script>2020
+                            All rights reserved | This template is made with <i class="fa fa-heart-o"
+                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        </p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    
+    <% if (user) { %>
+        <p style="display: none;" id="nameuser"><%= user.Username %></p>
+    <% }else{ %>
+        <p style="display: none;" id="nameuser"></p>
+
+    <% } %>
+
+
+
+    <%- include('../layouts/Ufooter'); -%>

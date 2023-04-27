@@ -1,0 +1,363 @@
+<%- include('../layouts/aHeader'); -%>
+  <style>
+    .error{
+      font-size: 12px;
+      color: red;
+    }
+  </style>
+
+<div class="container tm-mt-big tm-mb-big">
+    <div class="row">
+      <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+        <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="tm-block-title d-inline-block">Add Product</h2>
+            </div>
+          </div>
+          <div class="row tm-edit-product-row">
+            <div class="col-xl-6 col-lg-6 col-md-12">
+              <form action="/admin/product/edit?id=<%= product._id %>" id="this_form" method="post" class="tm-edit-product-form" enctype="multipart/form-data">
+                <div class="form-group mb-3">
+                  <label
+                    for="name"
+                    >Product Name 
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    class="form-control validate"
+                    value="<%=product.title  %>"
+                    required
+                  />
+                  <span class="error" id="name-error"></span>
+
+                </div>
+                <div class="form-group mb-3">
+                    <label
+                      for="brand"
+                      >Brand
+                    </label>
+                    <input
+                      id="name"
+                      name="brand"
+                      type="text"
+                      class="form-control validate"
+                      value="<%=product.brand %>"
+                      required
+                    />
+                  <span class="error" id="size-error"></span>
+
+                  </div>
+                  <div class="form-group mb-3">
+                    <label
+                    for="description"
+                    >Description</label
+                    >
+                    <textarea
+                    class="form-control validate"
+                    rows="3"
+                    name="description"
+                    id="description"
+                    ><%=product.description %></textarea>
+                  <span class="error" id="description-error"></span>
+
+                  </div><p id="category_select" style="display: none;"><%= product.category.name %></p> 
+                  <div class="form-group mb-3">
+                    <label
+                      for="category"
+                      >Category</label
+                    >
+                    <select
+                      class="custom-select tm-select-accounts"
+                      id="category"
+                      name="category"
+                    >
+
+                    
+                    <!-- <option selected>Select category</option> -->
+                    <% for( let i = 0; i < categorys.length; i++ ) { %>
+                      <option  value="<%= categorys[i].name %>" class="product_category"><%= categorys[i].name %></option>
+                      <% } %>
+                    </select>
+                    <span class="error" id="category-error"></span>
+                  </div>
+                  <div class="row">
+                    <div class="form-group mb-3 col-xs-12 col-sm-6">
+                        <label
+                          for="expire_date"
+                          >Price
+                        </label>
+                        <input
+                          id="price"
+                          name="price"
+                          type="text"
+                          class="form-control validate"
+                          data-large-mode="true"
+                          min="1"
+                          value="<%=product.price %>"
+                        />
+                        <span class="error" id="price-error"></span>
+                      </div>
+                      <div class="form-group mb-3 col-xs-12 col-sm-6">
+                        <label
+                          for="stock"
+                          >Quantity
+                        </label>
+                        <input
+                          id="stock"
+                          name="stock"
+                          type="text"
+                          class="form-control validate"
+                          value="<%=product.stocks %>"
+                          min="1"
+                          required
+                        />
+                        <span class="error" id="stock-error"></span>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+                  <div class="row ">
+
+
+                  <% product.images.forEach(element => { %>
+
+                    <div class="col-4 m-1 justify-content-end " id="<%= element %>" style="background-image: url('/product_img/<%= element %>'); width: 105px; height: 105px; background-size: contain; display: flex;">
+                      <!-- <button type="button" class="btn btn-square btn-secondary" id="" title="Delete photo" ><i class="fa fa-trash hover"></i></button> -->
+                      <div class="circle-container">
+                        <a href="#" onclick="imgRemove('<%= element %>','<%= product._id %>')">
+                          <i class="fa fa-trash text-white" style="  font-size: 12px;"></i>
+                        </a>
+                      </div>
+                    </div>
+                <% }) %>
+              </div>
+                  <div class="custom-file mt-3 mb-3">
+                    <input id="fileInput" name="images" type="file" style="display:none;" multiple/>
+                    <input
+                      type="button"
+                      class="btn btn-primary btn-block mx-auto"
+                      style="background-color: rgb(158, 156, 156);"
+                      value="UPLOAD PRODUCT IMAGE"
+                      onclick="document.getElementById('fileInput').click();"
+                    />
+                  </div>
+                  <span class="error" id="fileInput-error"></span>
+                  <div class="form-group mb-3 text-white">
+                    <label
+                      for="category"
+                      >Size</label>
+
+                    <div class="d-flex justify-content-center " ><% for( let i = 0; i < product.size.length; i++ ) { %>
+                      <p style="display: none;" class="size_check"><%= product.size[i] %></p><% } %>
+                    <input type="checkbox" class="mt-2" name="size" id="size" value="S"><label  class="p-2 "for=""> S </label>
+                    <input type="checkbox" class="mt-2" name="size" id="size"  value="M"><label class="p-2" for=""> M </label>
+                    <input type="checkbox" class="mt-2" name="size" id="size" value="L"><label  class="p-2"for=""> L </label>
+                    <input type="checkbox" class="mt-2" name="size" id="size" value="XL"><label class="p-2 " for=""> Xl </label></div>
+                    
+                  </div>
+                  <span class="error" id="size-error"></span>
+
+                      <div class="form-group mb-3 text-white">
+                        <label
+                        for="category"
+                        >Color</label>
+                        <div class="d-flex justify-contet-center">
+                          <div id="input-container">
+                            <% for( let i = 0; i < product.color.length; i++ ) { %>
+                              <input type="color" class="me-4 round-input" name="color" value="<%= product.color[i] %>" id="color">
+                            <% } %>
+                            <button type="button" id="add-input" style="color: rgb(255, 255, 255); border: none; outline: none;
+                            background: none;" ><span><i class="fa-solid fa-plus"></i></span></button>
+                          </div>
+                          <span class="error" id="color-error"></span>
+                      </div>
+                      </div>
+                  </div>
+                  <% if (mes != null) { %>
+                    <div>
+                      <small class="text-danger "><%= mes %></small>
+                    </div> 
+                  <% } %>   
+ 
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary btn-block text-uppercase">edit Product Now</button>
+                </div>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+    <script>
+
+document.getElementById('navProducts').classList = 'nav-link active';
+
+function imgRemove(file,productId){
+
+  fetch(`/admin/product/image-remove?file=${file}&productId=${productId}`, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('fmmf', document.getElementById(`${file}`));
+      document.getElementById(`${file}`).style.display = 'none'
+      $('#myModal').modal('show');
+      setTimeout(function() {
+          $('#myModal').modal('hide');
+      }, 5000); // 5000 milliseconds (5 seconds)
+  })
+  .catch(error => {
+      console.error(error);
+  });
+
+}
+
+$(document).ready(function() {
+    $('#this_form').submit(function(e) {
+      e.preventDefault();
+  
+      var error = false;
+  
+      // Validate full name
+      var name = $('#name').val().trim();
+        if (!name) {
+          $('#name-error').text('Please enter your full name');
+          error = true;
+          $('#name')
+      } else {
+        $('#name-error').text('');
+      }
+  
+      // Validate house name
+      var brand = $('#brand').val();
+      if (!brand) {
+        $('#brand-error').text('Please enter your valid brand');
+        error = true;
+      } else {
+        $('#brand-error').text('');
+      }
+  
+      // Validate pincode
+      var description = $('#description').val();
+      console.log($('#description').val());
+      if (!description) {
+        $('#description-error').text('Please enter a valid description ');
+        error = true;
+      } else {
+        $('#description-error').text('');
+      }
+  
+      // Validate city
+      // var city = $('#category').val();
+      // if (!category) {
+      //   $('#category-error').text('Please enter valid category');
+      //   error = true;
+      // } else {
+      //   $('#category-error').text('');
+      // }
+  
+      // Validate district
+            var price = $('#price').val();
+      if (!price || price <= 0) {
+        $('#price-error').text('Please enter a valid price');
+        error = true;
+      } else {
+        $('#price-error').text('');
+      }
+
+        // Validate stock
+        var stock = $('#stock').val();
+        if (!stock || stock <= 0) {
+          $('#stock-error').text('Please enter a valid stock');
+          error = true;
+        } else {
+          $('#stock-error').text('');
+        }
+      console.log(error);
+
+                        // Validate state
+        var fileInput = $('#fileInput');
+        var fileName = fileInput.val();
+        var fileExt = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+var allowedTypes = ['image/jpeg', 'image/png', 'image/gif','image/webp'];
+if(fileName){
+ if (!allowedTypes.includes(fileInput[0].files[0].type)) {
+  $('#fileInput-error').text('Please add a valid image file (JPG, JPEG, PNG, or GIF)');
+  error = true;
+} else {
+  $('#fileInput-error').text('');
+  error = false;
+}
+}else{
+  $('#fileInput-error').text('');
+  error = false;
+}
+
+        // var size = $('#size').val();
+        // if (!size) {
+        //     $('#size-error').text('Please add valid size');
+        //     error = true;
+        // } else {
+        //     $('#size-error').text('');
+        // }
+    
+      // Submit the form if no errors
+      console.log(error);
+      if (!error) {
+        this.submit();
+      }
+    });
+  });
+      const MAX_INPUTS = 6; // Maximum number of inputs allowed
+      const inputContainer = document.querySelector('#input-container');
+      const addButton = document.querySelector('#add-input');
+      let size_checkbox = document.getElementsByClassName('size_check')
+      let checkbox = document.getElementsByName('size')
+      let category_select = document.getElementById('category_select')
+      let category = document.getElementsByClassName('product_category')
+      for (let i = 0 ; i < size_checkbox.length;i++){
+        if(checkbox[i].value == size_checkbox[i].innerText){
+          checkbox[i].checked = true
+        }else{
+          console.log('LL');
+        }
+      }
+      for(let i = 0 ; i < category.length ; i++ ){
+
+        if (category[i].value === category_select.innerText){
+
+          category[i].setAttribute('selected',true)
+
+          console.log('true for',category_select.innerText);
+
+        }
+      }
+      // Add a click event listener to the button
+      addButton.addEventListener('click', () => {
+        const inputs = inputContainer.querySelectorAll('input[type="color"]');
+        if (inputs.length < MAX_INPUTS) {
+          const newInput = document.createElement('input');
+          newInput.type = 'color';
+          newInput.className = 'me-4 round-input';
+          newInput.name = 'color';
+          inputContainer.insertBefore(newInput, addButton);
+          
+          // Disable the button if the maximum number of inputs have been added
+          if (inputs.length === MAX_INPUTS - 1) {
+            addButton.disabled = true;
+          }
+        }
+      });
+
+      // if (getElementById())
+      
+</script>
+  </body>
+  <%- include('../layouts/aFooter'); -%>

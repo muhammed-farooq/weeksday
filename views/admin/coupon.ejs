@@ -1,0 +1,314 @@
+<%- include('../layouts/aHeader'); -%>
+<style>
+.error{
+  color: red;
+  font-size: 12px;
+}
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+               color: rgba(255, 255, 255, 0.719);
+               opacity: 100; /* Firefox */
+}
+  
+</style>
+
+<div class="container tm-mt-big tm-mb-big">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+      <div class="tm-bg-primary-dark tm-block tm-block-product-categories">
+        <h2 class="tm-block-title">Coupon List</h2>
+        <div class="tm-product-table-container">
+          <table class="table table-hover tm-table-small tm-product-table">
+            <thead>
+              <tr class="font-table-th">
+                <th scope="col">Title</th>
+                <th scope="col">Code</th> 
+                <th scope="col">Expiry Date</th>                                  
+                <th scope="col">Min Amount</th>                                  
+                <th scope="col">Max offer</th>
+                <th scope="col">Discount</th>
+                <th scope="col">status</th> 
+                <th scope="col">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if(coupons.length !=0 ){ %>
+                <% for( let i = 0; i < coupons.length; i++ ) { %>
+                
+
+                <tr class="font-table-td" id="<%=coupons[i]._id%>">
+                  <td><%= coupons[i].title %>  </td>
+                  <td><%= coupons[i].couponCode %></td>
+                  <td><%= new Date(coupons[i].expiryDate ).toLocaleDateString()%></td>
+                  <td>₹<%= coupons[i].minPurchaseAmount %></td>
+                  <td>₹<%= coupons[i].maxDiscountAmount %></td>
+                  <td><%= coupons[i].discount %>%</td>
+                  <% if (coupons[i].status == true) { %>
+                    
+                    <td class="text-success">Active</td>
+                    <% }else{ %>
+                    <td class="text-danger">expiard</td>
+
+                    <% } %>
+                  <td>
+                    <a onclick="couponRemove('<%=coupons[i]._id%>')" class="tm-product-delete-link">
+                      <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                    </a>
+                  </td>
+                </tr>
+                <% } %>
+              <% }else{ %>
+                <tr>
+                  <td colspan="9" class="text-danger text-center">no coupons !!</td>
+                </tr>
+                <% } %>
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6  mx-auto ">
+      <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+        <div class="row">
+          <div class="col-12 text-center">
+           <h2 class="tm-block-title mb-3">Add Coupon</h2><hr>
+          </div>
+        </div>
+        <div class="row mt-2 font-lable">
+          <div class="col-12">
+              <form action="/admin/coupon" class="tm-signup-form row" method="post" id="couponform">
+                <div class="form-group col-lg-6">
+                  <label for="name">Coupon Name</label>
+                  <input
+                    id="name"
+                    name="title"
+                    type="text"
+                    class="form-control validate"
+                    minlength="3" maxlength="50"
+                  />
+                  <span class="error" id="name-error"></span>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="couponCode">Coupon Code</label>
+                  <input
+                    id="couponCode"
+                    name="couponCode"
+                    type="text"
+                    class="form-control validate"
+                    minlength="3" maxlength="50"
+                  />  <span class="error" id="couponCode-error"></span>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="minPurchaseAmount">Min Purchase Amount</label>
+                  <input
+                    id="minPurchaseAmount"
+                    name="minPurchaseAmount"
+                    type="number"
+                    min="1"
+                    class="form-control validate"
+                  />  <span class="error" id="minPurchaseAmount-error"></span>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="maxDiscountAmount">Max Discount Amount</label>
+                  <input
+                    id="maxDiscountAmount"
+                    name="maxDiscountAmount"
+                    type="number"
+                    min="1"
+                    class="form-control validate"
+                  />  <span class="error" id="maxDiscountAmount-error"></span>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="discount">Discount ("%")</label>
+                  <input
+                    id="discount"
+                    name="discount"
+                    type="number"
+                    min="0"
+                    max="100"
+                    class="form-control validate"
+                  />  <span class="error" id="discount-error"></span>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="expiryDate">Expiry Date</label>
+                  <input
+                    id="expiryDate"
+                    name="expiryDate"
+                    type="date"
+                    value="<%= date %>"
+                    min="<%= date %>"
+                    class="form-control validate"
+                  />  <span class="error" id="expiryDate-error"></span>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="quantity">Quantity</label>
+                  <input
+                    id="quantity"
+                    name="quantity"
+                    type="number"
+                    min="1"
+                    class="form-control validate"
+                  />  <span class="error" id="quantity-error"></span>
+                </div>
+                <div class="form-group col-lg-6 text-center">
+                  <label class="tm-hide-sm">&nbsp;</label>
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-block text-uppercase"
+                  >
+                    Add Coupon
+                  </button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<% if (msg != null) { %>
+  <script>
+        swal.fire({
+          title: "Oops" ,  
+          text: " <%= msg %> !",
+          icon: "error",
+          timer:5000,
+          showConfirmButton: false
+        })
+</script>
+<% } %>
+<% if (mes != null) { %>
+  <script>
+        swal.fire({
+          title: "Good job!",
+          text: " <%= mes %> ",
+          icon: "success",
+          timer:5000,
+          showConfirmButton: false
+        })
+</script>
+<% } %>
+<script>
+
+document.getElementById('navCoupon').classList = 'nav-link active';
+
+ function couponRemove(id) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You are about to remove the coupon',
+    icon: 'warning',
+    showCancelButton: true,
+    cancelButtonText: 'Cancel',
+    confirmButtonText: 'Yes, remove it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/admin/coupon/remove?coupenId=${id}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const remove = document.getElementById(`${id}`)
+            remove.style.display ='none'
+            Swal.fire({
+              title: 'Good job!',
+              text: data.message,
+              icon: 'success',
+              timer: 3000,
+              showConfirmButton: false
+            })
+          } else {
+            Swal.fire({
+              title: 'Oops',
+              text: data.message,
+              icon: 'error',
+              timer: 3000,
+              showConfirmButton: false
+            })
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  })
+}
+////  coupon form
+
+$(document).ready(function() {
+  $('#couponform').submit(function(e) {
+    e.preventDefault();
+console.log('hhvjhhj');
+    var error = false;
+
+    // Validate full name
+    var name = $('#name').val().trim();
+      if (!name) {
+        $('#name-error').text('Please enter valid coupon name');
+        error = true;
+        $('#name')
+    } else {
+      $('#name-error').text('');
+    }
+
+    // Validate house name
+    var couponCode = $('#couponCode').val().trim();
+    if (!couponCode) {
+      $('#couponCode-error').text('Please enter valid coupon code');
+      error = true;
+    } else {
+      $('#couponCode-error').text('');
+    }
+
+
+    // Validate city
+    var minPurchaseAmount = $('#minPurchaseAmount').val().trim();
+    if (!minPurchaseAmount) {
+      $('#minPurchaseAmount-error').text('Please enter valid minmum purchase amount');
+      error = true;
+    } else {
+      $('#minPurchaseAmount-error').text('');
+    }
+
+    // Validate district
+    var maxDiscountAmount = $('#maxDiscountAmount').val().trim();
+    if (!maxDiscountAmount) {
+      $('#maxDiscountAmount-error').text('Please enter valid maxmum discount amount');
+      error = true;
+    } else {
+      $('#maxDiscountAmount-error').text('');
+    }
+      // Validate state
+      var state = $('#discount').val().trim();
+      if (!state) {
+          $('#discount-error').text('Please enter valid discount');
+          error = true;
+      } else {
+          $('#discount-error').text('');
+      }
+  
+    // Validate mobile number
+    var expiryDate = $('#expiryDate').val().trim();
+    if (!expiryDate) {
+      $('#expiryDate-error').text('Please enter valid expiry date');
+      error = true;
+    } else {
+      $('#expiryDate-error').text('');
+    }
+
+    // Validate email
+    var quantity = $('#quantity').val().trim();
+    if (!quantity ) {
+      $('#quantity-error').text('Please enter a valid quantity');
+      error = true;
+    } else {
+      $('#quantity-error').text('');
+    }
+
+    // Submit the form if no errors
+    if (!error) {
+      this.submit();
+    }
+  });
+});
+</script>
+  <%- include('../layouts/aFooter'); -%>

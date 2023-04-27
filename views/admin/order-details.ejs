@@ -1,0 +1,254 @@
+<%- include('../layouts/aHeader'); -%>
+
+        <div class="container">
+            <!-- row -->
+                <div class="col-12 tm-block-col">
+                    <div class="container my-5 fw-bold">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="card shadow" style="padding-left: 23px">
+                              <div class="card-header">
+                                <h3 class="text-center">View order</h3>
+                              </div>
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <h4>Shipping Details</h4>
+                                    <hr />
+                                    <label class="mt-2 mb-2"> Name</label>
+                                    <div class="border p-1 mb-3"><%=order.shippingAddress.name%></div>
+                                    <label class="mt-2 mb-2">Email</label>
+                                    <div class="border p-1 mb-3"><%=order.shippingAddress.email%></div>
+                                    <label class="mt-2 mb-2">Phone Number</label>
+                                    <div class="border p-1 mb-3"><%=order.shippingAddress.mobilenumber%></div>
+                                    <label class="mt-2 mb-2">Delivery Address</label>
+                                    <div class="border p-1 mb-3">
+                                        <%=order.shippingAddress.housename%>,<%=order.shippingAddress.city %>,<%=order.shippingAddress.district%>,<%=order.shippingAddress.state%>,<%=order.shippingAddress.pincode%> <br />
+                                    </div>
+
+                                  </div>
+                                  <div class="col-md-6">
+                                        <div class="col-12 tm-block-col">
+                                            <div class="tm-bg-primary tm-block tm-block-taller tm-block-scroll p-2">
+                                                <h2 class="tm-block-title text-dark">Order List</h2>
+                                                <table class="table bg-white text-dark">
+                                                    <thead class="bg-white text-dark">
+                                                        <tr>
+                                                            <th scope="col" class="">PRODUCT</th>
+                                                            <th scope="col" class="">QUANTITY</th>
+                                                            <th scope="col" class="">STATUS</th>
+                                                            <th scope="col" class="">PRICE</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% for( let i = 0; i < order.products.length; i++ ) { %>
+                                                            <tr>
+                                                               
+                                                                <td class="tm-product-image  ">
+                                                                    <img style="width: 70px;height: 70px; object-fit: cover;" src="/product_img/<%= order.products[i].productId.images[0] %>" alt="">
+                                                                    <div class="">
+                                                                        <b>₹ <%=order.products[i].price  %>.00</b>
+                                                                    </div>
+                                                                </td>
+                                                                <td class=""><b>QUA: <%=order.products[i].quantity %></b></td>
+                                                                <td class=""><b>                                                                    
+                                                                    <% if (order.status === 'Confirmed' || order.status=== 'Shipped') { %>
+                                                                        <div id="ship-div<%= order._id %>"> 
+                                                                            <i class="tm-status-circle pending" >
+                                                                            </i><span id="Confirmed<%= order._id %>"><%= order.status %></span>
+                                                                        </div>
+                                                                        <div style="display: none;" id="delivery-div<%= order._id %>">
+                                                                            <i class="tm-status-circle moving">
+                                                                            </i><span>Delivered</span>
+                                                                        </div>  
+                                                                    <% } else if (order.status === 'Delivered') { %>
+                                                                        <div>
+                                                                            <i class="tm-status-circle moving">
+                                                                            </i><span><%= order.status %></span>
+                                                                        </div>
+                                                                    <% } else { %>
+                                                                        <div><i class="tm-status-circle cancelled">
+                                                                        </i><span><%= order.status %></span></div>
+                                                                    <% } %>
+                                                                </b></td>
+                                                                <td class=""><b>₹ <%=order.products[i].price  %>.00 </b></td>
+                                                            </tr>
+                                                        <% } %>
+                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    <hr />
+                                    <div class="fw-bold">
+                                    <br />
+                                    <h6>Discount: ₹<span class="text-success"><%=order.discount  %>.00</span></h6><br>
+                                    <h6 class="">
+                    
+                                      Grand Total: <span> ₹<%=order.GrandTotal  %>.00 - <%=order.discount  %>.00 : <span class="text-primary text-decoration-underline">₹<%=order.GrandTotal-order.discount  %>.00</span>  </span>
+                                      <br />
+                                      </h6>
+                                      <br />
+
+
+                                      <h6>Payment Mode : <%=order.paymentType %></h6>
+                                      <br />
+                                      <!-- {% elif order.status == 'Pending' %} -->
+                                      <!-- {% else %}
+                                      <h6>
+                                        Order Status:
+                                        <span class="text-success">{{order.status}}</span>
+                                      </h6>
+                                      <br />
+                                      {% endif %} -->
+                                      <h6>Order Id : <%=order._id %></h6>
+                                      <br />        
+                                                    <% if (order.status === 'Confirmed') { %>
+                                                                        <div id="ship-div<%= order._id %>"> 
+                                                                            <button class="btn btn-warning" id="shipping-btn<%= order._id %>" onclick="shipped('<%= order._id %>')">shipping</button>
+                                                                        </div>
+                                                                        <div id="ship-div<%= order._id %>" style="display: none;"> 
+                                                                            <button class="btn btn-success" id="delivery-btn<%= order._id %>" onclick="delivery('<%= order._id %>')">Delivery</button>
+                                                                        </div>
+ 
+                                                                    <% } else if (order.status === 'Shipped') { %>
+                                                                        <div id="" > 
+                                                                            <button class="btn btn-success" id="delivery-btn<%= order._id %>" onclick="delivery('<%= order._id %>')">Delivery</button>
+                                                                        </div>
+                                                                    <% } else { %>
+                                                                        <div><i class="tm-status-circle cancelled">
+                                                                        </i><span><%= order.status %></span></div>
+                                                                    <% } %>
+                                    <!-- {% else %}
+                                    <a href="#" class="btn btn-secondary btn-sm disabled" role="button" aria-disabled="true">Cancelled</a>
+                                    <h6 class="mt-3 font-weight-bold">Refund ID : {{order.payment.refund_id}}</h6>
+                                    {% endif %} -->
+                                    </div>
+                                    
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                          <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Wishlist</h5>
+                                </div>
+                                <div class="modal-body">
+                                <!-- Response message will be displayed here -->
+                                </div>
+                                <div class="modal-footer">
+                                    <h1>           </h1>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+<script>
+document.getElementById('navOrders').classList = 'nav-link active'
+    
+function shipped(orderId){
+
+
+    if(orderId){
+        fetch(`/admin/order/ship?orderId=${orderId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const modalBody = document.querySelector('.modal-body');
+            modalBody.textContent = data.message;
+                const btn_shipped = document.getElementById(`shipping-btn${orderId}`);
+                btn_shipped.style.display = 'none';
+                const btn_delvery = document.getElementById(`delivery-btn${productId}`);
+                btn_delvery.style.display = 'block';
+                const div_ship = document.getElementById(`Confirmed${productId}`);
+                div_ship.textContent = "Shipped";
+
+            $('#myModal').modal('show');
+            setTimeout(function() {
+                $('#myModal').modal('hide');
+            }, 5000); // 5000 milliseconds (5 seconds)
+        })
+        .catch(error => {
+            const modalBody = document.querySelector('.modal-body');
+        modalBody.textContent = "error";
+        $('#myModal').modal('show');
+        setTimeout(function() {
+            $('#myModal').modal('hide');
+        }, 5000); // 5000 milliseconds (5 seconds)
+        });
+    }else{
+        const modalBody = document.querySelector('.modal-body');
+        modalBody.textContent = "error";
+        $('#myModal').modal('show');
+        setTimeout(function() {
+            $('#myModal').modal('hide');
+        }, 5000); // 5000 milliseconds (5 seconds)
+    }  
+}
+
+
+
+
+function delivery(orderId){
+    if(orderId){
+        fetch(`/admin/order/delivery?orderId=${orderId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const modalBody = document.querySelector('.modal-body');
+            modalBody.textContent = data.message;
+                const btn_delvery = document.getElementById(`delivery-btn${productId}`);
+                btn_delvery.style.display = 'none';
+                const btn_shipped = document.getElementById(`gotit-btn${productId}`);
+                btn_shipped.style.display = 'block';
+                const div_delivery = document.getElementById(`delivery-div${productId}`);
+                div_delivery.style.display = 'block'
+                const ship_div = document.getElementById(`ship-div${productId}`);
+                ship_div.style.display = 'none';
+            $('#myModal').modal('show');
+            setTimeout(function() {
+                $('#myModal').modal('hide');
+            }, 5000); // 5000 milliseconds (5 seconds)
+        })
+        .catch(error => {
+            const modalBody = document.querySelector('.modal-body');
+            modalBody.textContent = "error";
+            $('#myModal').modal('show');
+            setTimeout(function() {
+                $('#myModal').modal('hide');
+            }, 5000); // 5000 milliseconds (5 seconds)
+        });
+    }else{
+        const modalBody = document.querySelector('.modal-body');
+        modalBody.textContent = "error";
+        $('#myModal').modal('show');
+        setTimeout(function() {
+            $('#myModal').modal('hide');
+        }, 5000); // 5000 milliseconds (5 seconds)
+    }  
+}
+
+
+                      
+                      
+                      </script>
+                </div>  
+        </div>
+    </div>
+</body>    
+<%- include ('../layouts/aFooter') -%>

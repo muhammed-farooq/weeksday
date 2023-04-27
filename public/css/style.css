@@ -1,0 +1,102 @@
+.bgstyle {
+    background: url('../img/pexels-judah-visuals-12268732\ 11.jpg');
+    background-size: cover;
+}
+
+#signup-btn {
+    height: 45px;
+    background-color: rgb(145, 8, 8);
+    color: white;
+}
+.input1{
+    opacity: 70%;
+    text-align: center;
+}
+#h1{
+    font-size: 40px;
+}
+.toggle-password1:before {
+    content: "\f070";
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    font-size: 1.3rem;
+    background-color:#394e64;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  
+  input[type="checkbox"]:checked::before {
+    content: "✔";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: #fff;
+  }
+  
+  input[type="checkbox"]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #333;
+  }
+
+  .color-icon{
+    font-size: 1.2rem;
+    color: #fff;
+
+  }
+
+  .round-input {
+    width: 20px; /* adjust width to your preference */
+    height: 20px; /* adjust height to your preference */
+    /* border-radius: 50%; this will make the input element round */
+    border:none;/* add a border to the input element */
+    /* padding: 5px; adjust padding to your preference */
+    outline: none;
+    background: none;
+     /* this will remove the default outline when the input element is clicked */
+  }
+  
+  /* .round-input:focus { */
+    /* border-color: blue; add a different border color when the input element is focused */
+  /* } */
+
+
+  .font-table-td {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .font-lable {
+    
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .font-table-th {
+    text-align: center;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+
+  .circle-container {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-color: #000000;
+    border-radius: 50%;
+    text-align: center;
+  }

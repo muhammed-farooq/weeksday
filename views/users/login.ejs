@@ -1,0 +1,46 @@
+<%- include('../layouts/header'); -%>
+
+<section class="vh-100 gradient-custom njan bg-dark">
+	<div class="container py-3 h-100">
+	  <div class="row d-flex justify-content-center align-items-center h-100">
+		<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+		  <div class="  text-white" style="border-radius: 1rem;">
+			<div class="card-body p-5 text-center">
+  
+			  <div class="mb-md-5 mt-md-4 pb-5 text-warning">
+  
+				<h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+				<p class="text-warning-50 mb-5">Please enter your login and password!</p>
+				<form action="/login" method="post">
+					<div class="form-outline form-white mb-4">
+						<input type="email" name="email" id="typeEmailX" class="form-control form-control-lg rounded-pill text-center" placeholder="Email" />
+					  </div>
+		
+					  <div class="form-outline form-white mb-4">
+						<input type="password" name="password" id="typePasswordX" class="form-control form-control-lg rounded-pill  text-center" placeholder="Password" />
+						<% if (mes!=null || message != null) { %>
+							<div><small class="text-danger"><%= mes %></small></div>
+							<div><small class="text-sucsses"><%= message %></small></div>
+							<% } %>
+					  </div>
+		 
+					  <button class="btn btn-outline-warning btn-lg px-5 form-control form-control-lg rounded-pill" type="submit">Login</button>
+	  
+				</form>
+				<a href="otp-login" class="btn btn-outline-warning btn-lg px-5 form-control form-control-lg rounded-pill" type="submit">Otp login</a>
+				
+			  </div>
+  
+			  <div>
+				<p class="mb-0 text-warning">Don't have an account? <a href="/register" class="text-info-50 fw-bold">Sign Up</a>
+				</p>
+			  </div>
+  
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </section>
+
+  <%- include('../layouts/footer'); -%>
