@@ -16,7 +16,7 @@ const orderController = require ('../controllers/orderController')
 
 router.get('/register',auth.isLogout,userController.loadRegister).post('/register',userController.insertUser );
 router.get('/',userController.loadHome );
-router.route('/login').get(auth.isLogout,userController.loginLoad).post(userController.verifyUserLogin)
+router.route('/login').get(auth.isLogout,userController.loginLoad).post(auth.isLogout,userController.verifyUserLogin)
 router.get('/logout',auth.isLogin,userController.userLogout)
 router.get('/home',userController.loadHome)
 router.get('/verify',auth.isLogout,userController.verifymail)
@@ -29,6 +29,7 @@ router.post('/filter',userController.filter)
 router.get('/category-filter',userController.categoryFliter)
 router.get('/product-detail',userController.loadProductInfo)
 router.get('/profile',auth.isLogin, userController.loadprofile)
+router.route('/edit-profile').get(auth.isLogin, userController.loadEditeProfile).post(auth.isLogin, userController.EditeProfile)
 router.route('/cart').get(auth.isLogin,CartController.cartLoad).post( auth.isLogin,CartController.addToCart)
 router.get('/cart/increment',auth.isLogin,CartController.increamentCart)
 router.get('/cart/decrement',auth.isLogin,CartController.decreamentCart)

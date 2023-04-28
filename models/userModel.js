@@ -40,25 +40,7 @@ const addressScema = new Schema({
 
 })
 
-// const productsSchema = new Schema({
-//     productId: {
-//         type: String,
-//         required: true
-//     },
-//     quantity: {
-//         type: String,
-//         required: true
-//     },
-//     price: {
-//         type: String,
-//         required: true
-//     },
-//     status: {
-//         type: String,
-//         required: false,
-//         default: "placed"
-//     }
-// })
+
 const userSchema = new Schema({
     Username : {
         type : String ,

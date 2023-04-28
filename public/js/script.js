@@ -394,4 +394,50 @@ $(document).ready(function() {
   });
 
 
+  $(document).ready(function() {
+    $('#editProfileForm').submit(function(e) {
+      e.preventDefault();
+  
+      var error = false;
+  
+      // Validate full name
+      var name = $('#name').val().trim();
+        if (!name) {
+          $('#name-error').text('Please enter your name');
+          error = true;
+          $('#name')
+      } else {
+        $('#name-error').text('');
+      }
+   
+      // Validate email
+      var email = $('#email').val().trim();
+      var email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !email_regex.test(email)) {
+        $('#email-error').text('Please enter a valid email address');
+        error = true;
+      } else {
+        $('#email-error').text('');
+      }
+
+      // Validate mobile number
+      var mobilenumber = $('#mobilenumber').val().trim();
+      var mobilenumber_regex = /^[0-9]{10}$/;
+      if (!mobilenumber || !mobilenumber_regex.test(mobilenumber)) {
+        $('#mobilenumber-error').text('Please enter a valid 10-digit mobile number');
+        error = true;
+      } else {
+        $('#mobilenumber-error').text('');
+      }
+   
+      // Submit the form if no errors
+      if (!error) {
+        this.submit();
+      }
+    });
+  });
+
+  
+
+
 

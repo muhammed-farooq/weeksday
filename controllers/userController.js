@@ -597,6 +597,37 @@ const loadprofile = async (req,res) => {
 }
 
 
+const loadEditeProfile = async (req,res) => {
+    try {
+        const userData = await User.findOne({_id:req.session.user_Id});
+        res.render('edit-profile',{user:userData})
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const EditeProfile = async (req,res) => {
+    try {
+        if(req.body){
+            if(req.body.name && req.body.email && req.body.mobilenumber){
+                const userData = await User.findOne({_id:req.session.user_Id});
+                userData.Username = req.body.name
+                userData.email = req.body.email
+                userData.phoneNumber = req.body.mobilenumber
+                await userData.save()
+                res.redirect('/profile')
+            }
+        }else{
+            res.redirect('/edit-profile')
+        }
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
+
 const userLogout = async (req,res) => {
 
     try {
@@ -624,5 +655,7 @@ module.exports = {
     categoryFliter,
     loadProductInfo,
     loadprofile,
+    loadEditeProfile,
+    EditeProfile,
     userLogout
 }
