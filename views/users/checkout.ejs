@@ -46,26 +46,13 @@
             </div>
             <div class="col-6" style="    display: flex;justify-content: center ;height: 100px;">
                 <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" onclick="activateprofi()" data-bs-target="#nav-profile" type="button" role="tab" >
-                    <i class="fa-solid fa-cart-shopping" style="font-size: 40px;"></i><br> REVIEW  </button>
+                    <i class="fa-solid fa-cart-shopping" style="font-size: 40px;"></i><br> ITEMS  </button>
             </div>
             </div>
         </div>
-      </nav>
-      <script>
-        function activateHomeTab() {
-            // TODO: Implement the logic for the "ORDER" tab
-            console.log("Home tab activated");
-            document.getElementById("nav-home-tab").classList.add("active");
-            document.getElementById("nav-profile-tab").classList.remove("active");
-        }
-    
-        function activateprofi() {
-            // TODO: Implement the logic for the "REVIEW" tab
-            console.log("Profile tab activated");
-            document.getElementById("nav-profile-tab").classList.add("active");
-            document.getElementById("nav-home-tab").classList.remove("active");
-        }
-    </script>
+    </nav>
+
+
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">    
             <section class="checkout spad">
@@ -206,19 +193,19 @@
                                         <h4 class="order__title">Your order</h4>
                                         <div class="checkout__order__products">Product <span>Total</span></div>
                                         <ul class="checkout__total__products">
-                                            <% for( let i = 0; i < cart.Products.length; i++ ) { %>
-                                                <li>0<%= i+1%>.<%= cart.Products[i].productId.title %>  <span>₹<%= cart.Products[i].totalPrice %>.0</span></li>
-                                            <% } %>
+
+                                                <li>0<%= 1%>.<%= cart.Products[0].productId.title %>  <span>₹<%= cart.Products[0].totalPrice %>.0</span></li>
+                                                <li class="text-primary">and <%= cart.Products.length %> items more..</li>
                                         </ul>
                                         <ul class="checkout__total__all">
                                             <li class="subtotalcheck">Subtotal <span>₹<%= cart.GrandTotal %>.00</span></li>
                                             <% if (cart.coupon) { %>
                          
-                                                <li class="grandtotal ">Total <span class=" text-success"><%= cart.coupon.discount %>%</span></li>
-                                                <li class="grandtotalcheck">Total <span>₹<%= cart.GrandTotal-cart.discount %>.00</span></li>
+                                                <li class="discount">Total <span class=" text-success"><%= cart.coupon.discount %>%</span></li>
+                                                <li class="grandtotal">GrandTotal  <span>₹<%= cart.GrandTotal-cart.discount %>.00</span></li>
                                                 <% }else{ %>
-                                                    <li class="grandtotal ">Total <span class=" text-success">0%</span></li>
-                                                    <li class="grandtotalcheck">Total <span>₹<%= cart.GrandTotal %>.00</span></li>
+                                                    <li class="discount">Total <span class=" text-success">0%</span></li>
+                                                    <li class="grandtotal">GrandTotal <span>₹<%= cart.GrandTotal %>.00</span></li>
                                                 <% } %>
                                         </ul>
                                         <!-- <div class="checkout__input__checkbox">
@@ -228,12 +215,12 @@
                                                 <span class="checkmark"></span>
                                             </label>
                                         </div> -->
-                                        <p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
-                                        ut labore et dolore magna aliqua.</p>
+                                        <p>Welcome to our checkout page! Don't forget to double-check your details before submitting the form.
+                                            Thank you for shopping with us...!</p>
                                         <div class="checkout__input__checkbox">
                                             <span class="error" id="payment-error"></span>
                                             <label for="payment">
-                                                Chash on delivery
+                                                Cash on delivery
                                                 <input type="radio" id="payment" value="cod" name="paymentType">
                                                 <span class="checkmark"></span>
                                             </label>
@@ -335,11 +322,11 @@
                                                 <ul>
                                                     <li class="subtotal" >Subtotal <span>₹ <%= cart.GrandTotal %>.00</span></li>
                                                     <% if (cart.coupon) { %>
-                                                        <li class="grandtotal ">Total <span class=" text-success"><%= cart.coupon.discount %>%</span></li>
-                                                        <li class="grandtotalcheck">Total <span>₹<%= cart.GrandTotal-cart.discount %>.00</span></li>
+                                                        <li class="discount1 ">Discount <span class=" text-success"><%= cart.coupon.discount %>%</span></li>
+                                                        <li class="grandtotalcheck">GrandTotal <span>₹<%= cart.GrandTotal-cart.discount %>.00</span></li>
                                                     <% }else{ %>
-                                                        <li class="grandtotal ">Total <span class=" text-success">0%</span></li>
-                                                        <li class="grandtotalcheck">Total <span>₹<%= cart.GrandTotal %>.00</span></li>
+                                                        <li class="discount1">Discount <span class=" text-success">0%</span></li>
+                                                        <li class="grandtotalcheck">GrandTotal  <span>₹<%= cart.GrandTotal %>.00</span></li>
                                                     <% } %>
                                                 </ul>
                                     <% }else{ %>
@@ -366,8 +353,8 @@
                                             <h6>Cart total</h6>
                                             <ul>
                                                 <li>Subtotal <span>₹ 0.00</span></li>
-                                                <li class="grandtotal">Discount <span class="text-success">0%</span></li>
-                                                <li>Total <span>₹ 0.00</span></li>
+                                                <li class="discount">Discount <span class="text-success">0%</span></li>
+                                                <li>GrandTotal <span>₹ 0.00</span></li>
                                             </ul>
                                         <% } %>
                             </div>
@@ -464,7 +451,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Avialeble Coupon</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -514,51 +501,69 @@
 
 
 <script>
-const form = document.querySelector('#couponApplyForm');
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
- // hide the modal
+    function activateHomeTab() {
+        // TODO: Implement the logic for the "ORDER" tab
+        document.getElementById("nav-home-tab").classList.add("active");
+        document.getElementById("nav-profile-tab").classList.remove("active");
+    }
 
-  const formData = new FormData(form);
-  fetch('/coupon-apply', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: new URLSearchParams(formData)
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('jjdh');
+    function activateprofi() {
+        // TODO: Implement the logic for the "REVIEW" tab
+        document.getElementById("nav-profile-tab").classList.add("active");
+        document.getElementById("nav-home-tab").classList.remove("active");
+    }
+    const form = document.querySelector('#couponApplyForm');
+    form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    // hide the modal
 
-const body = document.body
-body.classList.remove('modal-open')
-    const modal = document.getElementById('exampleModal')
-    modal.classList.remove('show');
-    modal.style.display = 'none'
-    modal.removeAttribute('aria-modal');
-    modal.ariaHidden =true
+    const formData = new FormData(form);
+    fetch('/coupon-apply', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
 
-    const back = document.querySelector('.modal-backdrop')
-    back.remove();
+            const grandTotalcheck = document.querySelector('.grandtotalcheck span');
+            grandTotalcheck.textContent = `₹${data.grandTotal}.00`;
+            const discount = document.querySelector('.discount span');
+            discount.textContent = `${data.discount}%`
+            const discount1 = document.querySelector('.discount1 span');
+            discount1.textContent = `${data.discount}%`
+            const grandTotal = document.querySelector('.grandtotal span');
+            grandTotal.textContent = `₹${data.grandTotal}.00`;
+
+    const body = document.body
+    body.classList.remove('modal-open')
+        const modal = document.getElementById('exampleModal')
+        modal.classList.remove('show');
+        modal.style.display = 'none'
+        modal.removeAttribute('aria-modal');
+        modal.ariaHidden =true
+
+        const back = document.querySelector('.modal-backdrop')
+        back.remove();
 
 
 
-    const modalBody = document.querySelector('#modal-body');
-    modalBody.textContent = data.message;
-    $('#myModal').modal('show');
-    setTimeout(function() {
-        $('#myModal').modal('hide');
-    }, 5000)
-  })
-  .catch(error => {
-    console.error(error);
-    // Handle any errors that occur during the request
-  });
-});
-function kama(){
-$('#exampleModal').modal('hide')
-    
-}
+        const modalBody = document.querySelector('#modal-body');
+        modalBody.textContent = data.message;
+        $('#myModal').modal('show');
+        setTimeout(function() {
+            $('#myModal').modal('hide');
+        }, 5000)
+    })
+    .catch(error => {
+        console.error(error);
+        // Handle any errors that occur during the request
+    });
+    });
+    function kama(){
+    $('#exampleModal').modal('hide')   
+    }
 </script>
 <%- include('../layouts/Ufooter'); -%>

@@ -118,23 +118,31 @@ const removeAddress = async (req,res) =>{
 const checkoutLoad =async  (req,res) => {
     try {
         let index = 0
-        console.log('dkjgnbmbb dmfnbndbfn');
+        
         if(req.query.index){   
             index = req.query.index
         }
         const userId = req.session.user_Id
         const userData = await User.findOne({_id:userId});
-        let cart = await Cart.findOne({UserId:userId}).populate('Products.productId').populate('coupon');;
-        const outOfStock = cart.Products.map((value)=>value).filter((value)=>{
-            return value.productId.stocks >= value.quantity 
-        })
-        if(outOfStock.length != 0){
-            const coupon = await Coupon.find({ users: { $ne: userId } });
-            console.log(coupon);
-            res.render('checkout',{user:userData,index,cart,coupon})
+        let cart = await Cart.findOne({UserId:userId}).populate('Products.productId').populate('coupon');
+        if(cart){
+            if(cart.Products.length != 0){
+                const outOfStock = cart.Products.map((value)=>value).filter((value)=>{
+                    return value.productId.stocks >= value.quantity 
+                })
+                if(outOfStock.length != 0){
+                    const coupon = await Coupon.find({ users: { $ne: userId } });
+                    res.render('checkout',{user:userData,index,cart,coupon})
+                }else{
+                    res.redirect('/cart')
+                }
+            }else{
+                res.redirect('/cart')
+            }
         }else{
             res.redirect('/cart')
         }
+
     } catch (error) {
         console.log(error);     
     }
@@ -290,7 +298,7 @@ const placeOrder = async (req, res) => {
         
         //   Save the order object in the collection
         const orderD = await order.save();
-        console.log(orderD);
+        
         const updatePromises = orderData.products.map(item => {
             const { productId, quantity } = item;
             return Product.findByIdAndUpdate({_id: productId}, { $inc: { stocks: -quantity } });
@@ -300,6 +308,7 @@ const placeOrder = async (req, res) => {
         // Clear the user's cart
         await Cart.updateOne({ UserId: userId }, { $set: { Products: [], GrandTotal: 0 ,discount:0,coupon:null} });
         req.session.orderData = null;
+        req.session.order = null;
     res.json({orderId: order._id })
 
 
@@ -528,6 +537,9 @@ const applyCoupon = async(req,res)=>{
     
                         if (userCart.GrandTotal >= coupon.minPurchaseAmount) {
     
+
+                            const discount = coupon.discount ;
+
                             if (userCart.GrandTotal * couponDiscount > coupon.maxDiscountAmount) {
     
                                 const grand = coupon.maxDiscountAmount
@@ -535,8 +547,10 @@ const applyCoupon = async(req,res)=>{
                                 await Cart.updateOne({UserId:userId},{$set:{discount:grand,coupon:coupon._id}})
                                 
                                 await Coupon.updateOne({ _id: couponId },{ $push: { users: userCart.UserId }});
-                                
-                                res.send({sucsses:true,message:'coupon applyed successfully'})
+
+                                const grandTotal = userCart.GrandTotal - grand ;
+
+                                res.send({sucsses:true,message:'coupon applyed successfully',discount:discount,grandTotal:grandTotal})
     
                             }else{
     
@@ -545,7 +559,10 @@ const applyCoupon = async(req,res)=>{
                                 await Cart.updateOne({UserId:userId},{$set:{discount:grand,coupon:coupon._id}})
     
                                 await Coupon.updateOne({ _id: couponId },{$push: { users:  userCart.UserId  }});
-                                res.send({sucsses:true,message:'coupon applyed successfully '})
+
+                                const grandTotal = userCart.GrandTotal - grand ;
+
+                                res.send({sucsses:true,message:'coupon applyed successfully',discount:discount,grandTotal:grandTotal})
                         
                             }
                             

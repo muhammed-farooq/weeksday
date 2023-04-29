@@ -1,46 +1,92 @@
-<%- include('../layouts/header'); -%>
 
-<section class="vh-100 gradient-custom njan bg-dark">
-	<div class="container py-3 h-100">
-	  <div class="row d-flex justify-content-center align-items-center h-100">
-		<div class="col-12 col-md-8 col-lg-6 col-xl-5">
-		  <div class="  text-white" style="border-radius: 1rem;">
-			<div class="card-body p-5 text-center">
-  
-			  <div class="mb-md-5 mt-md-4 pb-5 text-warning">
-  
-				<h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-				<p class="text-warning-50 mb-5">Please enter your login and password!</p>
-				<form action="/login" method="post">
-					<div class="form-outline form-white mb-4">
-						<input type="email" name="email" id="typeEmailX" class="form-control form-control-lg rounded-pill text-center" placeholder="Email" />
-					  </div>
-		
-					  <div class="form-outline form-white mb-4">
-						<input type="password" name="password" id="typePasswordX" class="form-control form-control-lg rounded-pill  text-center" placeholder="Password" />
-						<% if (mes!=null || message != null) { %>
-							<div><small class="text-danger"><%= mes %></small></div>
-							<div><small class="text-sucsses"><%= message %></small></div>
-							<% } %>
-					  </div>
-		 
-					  <button class="btn btn-outline-warning btn-lg px-5 form-control form-control-lg rounded-pill" type="submit">Login</button>
-	  
-				</form>
-				<a href="otp-login" class="btn btn-outline-warning btn-lg px-5 form-control form-control-lg rounded-pill" type="submit">Otp login</a>
-				
-			  </div>
-  
-			  <div>
-				<p class="mb-0 text-warning">Don't have an account? <a href="/register" class="text-info-50 fw-bold">Sign Up</a>
-				</p>
-			  </div>
-  
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</div>
+  <%- include('../layouts/sign'); -%>
+
+<link rel="stylesheet" href="/css/style_copy.css" />
+
+<body class="img js-fullheight bgstyle" style="background-size: cover">
+  <section class="ftco-section vh-100">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 text-center mb-5">
+          <h1 class="heading-section fw-bold" id="h1">SING IN</h1>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+          <div class="login-wrap p-0">
+            <h4 class="mb-4 text-center text-white">Have an account?</h4>
+            <form action="/login" method="post" class="signin-form">
+              <div class="form-group">
+                <input
+                  type="email"
+                  name="email"
+                  class="form-control text-center"
+                  placeholder="Email"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  id="password-field"
+                  type="password"
+                  name="password"
+                  class="form-control text-center"
+                  placeholder="Password"
+                />
+                <span
+                  toggle="#password-field"
+                  class="fa fa-fw fa-eye field-icon toggle-password1"
+                ></span>
+              </div>
+			  <% if (mes!=null || message != null) { %>
+				<div><small class="text-danger"><%= mes %></small></div>
+				<div><small class="text-success"><%= message %></small></div>
+				<% } %>
+              <div class="form-group">
+                <button
+                  type="submit"
+                  id="signup-btn"
+                  class="form-control btn submit px-3"
+                >
+                  Sign In
+                </button>
+              </div>
+            </form>
+			<div class="form-group">
+                <a
+				href="otp-login"
+                  type="submit"
+                  id="signup-btn"
+                  class="form-control btn submit px-3"
+                >
+				Otp login
+			</a>
+			<p class="mb-0 mt-3 text-white">Don't have an account? <a href="/register" class="text-info-50 fw-bold">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
+  <script>
+    // Get the eye icon and password field
+    const togglePassword1 = document.querySelector(".toggle-password1");
+    const passwordField = document.querySelector("#password-field");
+
+    // Add a click event listener to the eye icon
+    togglePassword1.addEventListener("click", function () {
+      // Toggle the type attribute of the password field
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        togglePassword1.classList.add("fa-eye-slash");
+        togglePassword1.classList.remove("fa-eye");
+      } else {
+        passwordField.type = "password";
+        togglePassword1.classList.add("fa-eye");
+        togglePassword1.classList.remove("fa-eye-slash");
+      }
+    });
+  </script>
+
+  <%- include('../layouts/footer'); -%>
+ 
   <%- include('../layouts/footer'); -%>

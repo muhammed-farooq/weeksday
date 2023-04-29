@@ -16,10 +16,10 @@
                     <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll" style="max-height: 602px!important ;">
                         <h2 class="tm-block-title">Orders List</h2>
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-lg-4 col-md-6 col-sm-12">
                                 <button class="btn btn-primary" onclick="exportToExcel()">DOWLOAD</button>
                             </div>
-                            <div class="col-4">
+                            <div class="col-lg-4 col-md-6 col-sm-12">
                                 <form action="" id="salesReportForm">
                                     <input type="date" name="startingDate" id="startingDate">
                                     <span class="error" id="startingDate-error"></span><br>
@@ -29,7 +29,7 @@
                                     </button>
                                 </form>
                             </div>
-                            <div class="col-4 d-flex justify-content-end">
+                            <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-end">
                                 <button class="btn btn-primary" onclick="demoFromHTML()" style="height: fit-content;">PRINT</button>
 
                             </div>
@@ -83,7 +83,7 @@ $(document).ready(function() {
       // Validate full name
       var startingDate = $('#startingDate').val().trim();
         if (!startingDate) {
-          $('#startingDate-error').text('Please enter your full name');
+          $('#startingDate-error').text('Please enter start Date');
           error = true;
           $('#startingDate')
       } else {
@@ -93,7 +93,7 @@ $(document).ready(function() {
       // Validate house name
       var endingDate = $('#endingDate').val();
       if (!endingDate) {
-        $('#endingDate-error').text('Please enter your valid brand');
+        $('#endingDate-error').text('Please enter in date');
         error = true;
       } else {
         $('#endingDate-error').text('');

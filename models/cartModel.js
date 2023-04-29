@@ -36,7 +36,7 @@ const cartSchema = new Schema({
   },
   discount:{
     type:Number,
-    default:null
+    default:null 
   },
   coupon:{
     type:Schema.Types.ObjectId,

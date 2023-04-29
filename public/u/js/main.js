@@ -1,12 +1,5 @@
-/*  ---------------------------------------------------
-Template Name: Ashion
-Description: Ashion ecommerce template
-Author: Colorib
-Author URI: https://colorlib.com/
-Version: 1.0
-Created: Colorib
----------------------------------------------------------  */
-
+ 
+ 
 'use strict';
 
 (function ($) {
@@ -80,50 +73,8 @@ Created: Colorib
     $('.collapse').on('hidden.bs.collapse', function () {
         $(this).prev().removeClass('active');
     });
-
-    /*--------------------------
-        Banner Slider
-    ----------------------------*/
-    // $(".banner__slider").owlCarousel({
-    //     loop: true,
-    //     margin: 0,
-    //     items: 1,
-    //     dots: true,
-    //     smartSpeed: 1200,
-    //     autoHeight: false,
-    //     autoplay: true
-    // });
-
-    /*--------------------------
-        Product Details Slider
-    ----------------------------*/
-    $(".product__details__pic__slider").owlCarousel({
-        loop: false,
-        margin: 0,
-        items: 1,
-        dots: false,
-        nav: true,
-        navText: ["<i class='arrow_carrot-left'></i>","<i class='arrow_carrot-right'></i>"],
-        smartSpeed: 1200,
-        autoHeight: false,
-        autoplay: false,
-        mouseDrag: false,
-        startPosition: 'URLHash'
-    }).on('changed.owl.carousel', function(event) {
-        var indexNum = event.item.index + 1;
-        product_thumbs(indexNum);
-    });
-
-    function product_thumbs (num) {
-        var thumbs = document.querySelectorAll('.product__thumb a');
-        thumbs.forEach(function (e) {
-            e.classList.remove("active");
-            if(e.hash.split("-")[1] == num) {
-                e.classList.add("active");
-            }
-        })
-    }
-
+ 
+ 
 
     /*------------------
 		Magnific
@@ -168,44 +119,8 @@ Created: Colorib
     /* var timerdate = "2020/12/30" */
 
 	$("#countdown-time").countdown(timerdate, function(event) {
-        $(this).html(event.strftime("<div class='countdown__item'><span>%D</span> <p>Day</p> </div>" + "<div class='countdown__item'><span>%H</span> <p>Hour</p> </div>" + "<div class='countdown__item'><span>%M</span> <p>Min</p> </div>" + "<div class='countdown__item'><span>%S</span> <p>Sec</p> </div>"));
-    });
-
-    /*-------------------
-		Range Slider
-	--------------------- */
-	var rangeSlider = $(".price-range"),
-    minamount = $("#minamount"),
-    maxamount = $("#maxamount"),
-    minPrice = rangeSlider.data('min'),
-    maxPrice = rangeSlider.data('max');
-    rangeSlider.slider({
-    range: true,
-    min: minPrice,
-    max: maxPrice,
-    values: [minPrice, maxPrice],
-    slide: function (event, ui) {
-        minamount.val('$' + ui.values[0]);
-        maxamount.val('$' + ui.values[1]);
-        }
-    });
-    minamount.val('$' + rangeSlider.slider("values", 0));
-    maxamount.val('$' + rangeSlider.slider("values", 1));
-
-    /*------------------
-		Single Product
-	--------------------*/
-	$('.product__thumb .pt').on('click', function(){
-		var imgurl = $(this).data('imgbigurl');
-		var bigImg = $('.product__big__img').attr('src');
-		if(imgurl != bigImg) {
-			$('.product__big__img').attr({src: imgurl});
-		}
-    });
-    
-    /*-------------------
-		Quantity change
-	--------------------- */
+        $(this).html(event.strftime("<div class='countdown__item'><span>%D</span> <p>Day</p> </div>" + "<div class='countdown__item'><span>%H</span> <p>Hour</p> </div>" + "<div class='countdown__item'><span>%M</span> <p>Min</p> </div>" + "<div class='countdown__item'><span>%S</span> <p>Sec</p> </div>"));}
+        );
     var proQty = $('.pro-qty');
 	proQty.prepend('<span class="dec qtybtn">-</span>');
 	proQty.append('<span class="inc qtybtn">+</span>');
@@ -232,5 +147,8 @@ Created: Colorib
         $(".size__btn label").removeClass('active');
         $(this).addClass('active');
     });
+  
+
+
 
 })(jQuery);

@@ -4,6 +4,7 @@ const Product = require ('../models/productModel')
 const Category = require ('../models/categoryModel');
 const Cart = require ('../models/cartModel')
 const Wishlist = require ('../models/wishlistModel')
+const Coupon = require ('../models/couponModel')
 
 
 
@@ -14,7 +15,7 @@ const cartLoad = async (req,res) => {
         const carts = await Cart.findOne({UserId:req.session.user_Id})
         .populate('Products.productId')
         .populate('coupon');
-        console.log(carts.coupon);
+
         res.render('cart',{user:userData,carts})
     } catch (error) {
         console.log(error.message);
@@ -144,8 +145,15 @@ const increamentCart = async (req,res) => {
             }
             const UCart = await cart.save();
             if (UCart) {
-                console.log('updated');
-                return res.json({grand:cart.GrandTotal,total:cart.Products[index].totalPrice});
+                let Grand
+                if(cart.discount){
+
+                    Grand = cart.GrandTotal - cart.discount
+                }else{
+                    Grand = cart.GrandTotal
+
+                }
+                return res.json({subGrand:cart.GrandTotal,total:cart.Products[index].totalPrice,grand:Grand});
             }else{
                 return res.status(400).json({ error: 'couldnt update' });
             }
@@ -171,15 +179,24 @@ const decreamentCart = async (req,res) => {
             if (index === -1) {
                 return res.status(400).json({ error: 'Product not found in cart' });
             } else {
+                if(cart.coupon)await Coupon.updateOne({ _id: cart.coupon },{ $pull: { users: cart.UserId } });   
                 const newPrice = parseInt(cart.Products[index].totalPrice) - parseInt(productPrice);
                 const newGrandPrice = parseInt(cart.GrandTotal) - parseInt(productPrice);
                 cart.Products[index].quantity--;
                 cart.Products[index].totalPrice = newPrice;
                 cart.GrandTotal = newGrandPrice;
+                cart.coupon = null;
+                cart.discount = null;
             }
             const UCart = await cart.save();
             if (UCart) {
-                return res.json({grand:cart.GrandTotal,total:cart.Products[index].totalPrice});
+                let Grand
+                if(cart.discount){
+                    Grand = cart.GrandTotal - cart.discount
+                }else{
+                    Grand = cart.GrandTotal
+                }
+                return res.json({subGrand:cart.GrandTotal,total:cart.Products[index].totalPrice,grand:Grand});
             }else{
                 return res.status(400).json({ error: 'couldnt update' });
             }
@@ -201,9 +218,12 @@ const removeCart = async (req,res) =>{
             if (index === -1) {
                 return res.status(400).json({ error: 'Product not found in cart' });
             } else {
+                if(cart.coupon)await Coupon.updateOne({ _id: cart.coupon },{ $pull: { users: cart.UserId } });   
                 const newGrandPrice = parseInt(cart.GrandTotal) - parseInt(cart.Products[index].totalPrice);
                 cart.GrandTotal = newGrandPrice;
                 cart.Products.splice(index, 1);
+                cart.coupon = null;
+                cart.discount = null;
             }
             const UCart = await cart.save();
             if (UCart) {

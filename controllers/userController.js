@@ -32,6 +32,7 @@ const loadRegister = async (req,res) =>{
 
 const sendVerifyMail = async (username, email, user_id) => {
     try {
+
       const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -113,7 +114,7 @@ const validatePassword = (password) =>   {
   }
   
 const insertUser = async (req,res) => {
-        const repeatPNumber = await User.findOne({phoneNumber:req.body.phoneNumber});
+
         const repeatEmail = await User.findOne({email:req.body.email});
         const validName = isValidName(req.body.username);
         const validPNumber = isValidPNumber(req.body.phoneNumber);
@@ -147,10 +148,7 @@ const insertUser = async (req,res) => {
                 mes = 'name not correct'
                 res.redirect('/register')
             }
-            else if(repeatPNumber){
-                mes='phone number already exist'
-                res.redirect('/register')
-            }
+
             else if(!validPNumber){
                 mes = 'phone number not correct'
                 res.redirect('/register')
@@ -171,6 +169,7 @@ const insertUser = async (req,res) => {
                 res.redirect('/register')
             }
         else{
+
             const spassword = await securPassword(req.body.password)
             const  user = new User({
                 Username : req.body.username,
@@ -235,7 +234,7 @@ const verifyUserLogin = async (req,res) =>{
         }else{
             const userData = await User.findOne({email:emailId});   
             if (userData) {
-                // if (userData.is_verified == 1) {
+                if (userData.is_verified == 1) {
                     if (userData.is_blocked == 0){
                         const passwordMatch = await bcrypt.compare(passwordId,userData.password);
 
@@ -254,11 +253,11 @@ const verifyUserLogin = async (req,res) =>{
                         res.redirect('/login')
                     }
                    
-                // }else{
-                // mes = "you dont verify mail"
-                // res.redirect('/login')
+                }else{
+                mes = "you dont verify mail"
+                res.redirect('/login')
                     
-                // }
+                }
             }else {
                 mes = "email incorrect"
                 res.redirect('/login')
@@ -387,7 +386,7 @@ const loadHome = async (req,res) => {
         const userData = await User.findOne({_id:req.session.user_Id});
         const products = await Product.find({listed:0}).limit(6)
         const banner = await Banner.find().sort({no:1})
-        console.log(userData);
+
         res.render('home',{user:userData,products,banner})
     } catch (error) {
         console.log(error.message);

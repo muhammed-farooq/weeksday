@@ -50,7 +50,9 @@
                       </div>
                       <div class="col-md-6">
                         <h4>Order Details</h4>
-                        <div style="overflow: scroll;">
+                        <div style="max-height: 350px;
+                        overflow: scroll;
+                        max-width: 550px;">
                             <table>
                                 <thead class="">
                                     <tr id="order" class="" style="height: 50px;">
@@ -75,7 +77,7 @@
                                         </div>
                                     </td>
                                     <td class="cart__price">₹ <%=order.products[i].price  %>.00</td>
-                                    <td class="quantity__item w-auto" id="productstatus<%= order.products[i].productId._id %>">
+                                    <td class="quantity__item w-auto" id="orderstatus<%= order._id %>">
                                         <% if (order.status === 'Confirmed' || order.status === 'Shipped') { %>
                                             <span class="fas fa-circle text-primary small mr-1"></span> <%= order.status %>
                                         <% } else if (order.status === 'Delivered') { %>
@@ -185,155 +187,7 @@
       </div>
     </div>
   </div>
-<script>
-        function orderCancel(orderId) {
-    if (orderId) {
-        // show confirmation modal
-        $('#confirmationModal').modal('show');
 
-        // listen to click event on confirm button in modal
-        $('#confirmBtn').on('click', function() {
-            $('#confirmationModal').modal('hide');
-        // make fetch request to cancel order
-        fetch(`/order-cancel?orderId=${orderId}`, {
-            method: 'GET',
-            headers: {
-            'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success){
-                const modalBody = document.querySelector('#modal-body');
-                modalBody.textContent = data.message;
-                // show success modal
-                $('#myModal').modal('show');
-                const cancelbtn = document.getElementById(`cancelbtn${orderId}`);
-                cancelbtn.style.display = "none";
-                const statustext = document.getElementById(`status-text${orderId}`);
-                statustext.innerHTML = 'Order has been <span class="text-danger "><strong>"Canceled"</strong></span>';
-                statustext.style.display = "block";
-                const productstatus = document.getElementById(`productstatus${orderId}`);
-                productstatus.innerHTML = '<span class="fas fa-circle text-danger small mr-1"></span> Cancelled';
-               
-                setTimeout(function() {
-                $('#myModal').modal('hide');
-                }, 5000); // 5000 milliseconds (5 seconds)
-            }else{
-                const modalBody = document.querySelector('#modal-body');
-                modalBody.textContent = data.message;
-                $('#myModal').modal('show');
-                setTimeout(function() {
-                $('#myModal').modal('hide');
-                }, 5000); // 5000 milliseconds (5 seconds)
-            }
-            // show success modal
-            $('#myModal').modal('show');
-            setTimeout(function() {
-            $('#myModal').modal('hide');
-            }, 5000); // 5000 milliseconds (5 seconds)
-        })
-        .catch(error => {
-            console.error(error);
-        });
-        });
-    } else {
-        const modalBody = document.querySelector('#modal-body');
-        modalBody.textContent = "error";
-        $('#myModal').modal('show');
-        setTimeout(function() {
-        $('#myModal').modal('hide');
-        }, 5000); // 5000 milliseconds (5 seconds)
-    }
-}   
-    
-////////////////////////////////////////
-
-function orderReturn(orderId) {
-    if (orderId) {
-        // show confirmation modal
-        $('#confirmationModal').modal('show');
-
-        // listen to click event on confirm button in modal
-        $('#confirmBtn').on('click', function() {
-            $('#confirmationModal').modal('hide');
-        // make fetch request to cancel order
-        fetch(`/order-return?orderId=${orderId}`, {
-            method: 'GET',
-            headers: {
-            'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            const modalBody = document.querySelector('#modal-body');
-            modalBody.textContent = data.message;
-            if(data.success){
-
-                const returnbtn = document.getElementById(`returnbtn${orderId}`);
-                returnbtn.style.display = "none";
-                const statustext = document.getElementById(`status-text${orderId}`);
-                statustext.innerHTML = 'Order has been <span class="text-danger "><strong>"Returned"</strong></span>';
-                statustext.style.display = "block";
-                const productstatus = document.getElementById(`productstatus${orderId}`);
-                productstatus.innerHTML = '<span class="fas fa-circle text-danger small mr-1"></span> Returned';
-                return-date
-                const returndate = document.getElementById(`return-date${orderId}`);
-                returndate.style.display = "none";
-                // show success modal
-                $('#myModal').modal('show');
-                setTimeout(function() {
-                $('#myModal').modal('hide');
-                }, 5000); // 5000 milliseconds (5 seconds)
-            }else{
-                $('#myModal').modal('show');
-                setTimeout(function() {
-                $('#myModal').modal('hide');
-                }, 5000); // 5000 milliseconds (5 seconds)
-            }
-            // const modalBody = document.querySelector('.modal-body');
-            // modalBody.textContent = data.message;
-            // if(data.updated){
-            //     console.log('jbdkdjbf');
-            //     const btn_shipped = document.getElementById(`shipping-btn${productId}`);
-            //     btn_shipped.style.display = 'none';
-            //     const btn_delvery = document.getElementById(`delivery-btn${productId}`);
-            //     btn_delvery.style.display = 'block';
-            //     const div_ship = document.getElementById(`Confirmed${productId}`);
-            //     div_ship.textContent = "Shipped";
-            // }
-            // console.log(data.mainstatus);
-            // if(data.mainstatus){
-            //     console.log('jbdkdjbf');
-
-            //     const mainstatus = document.getElementById('mainstatus');
-            //     mainstatus.textContent = "Shipped"
-            // }
-
-            // show success modal
-            $('#myModal').modal('show');
-            setTimeout(function() {
-            $('#myModal').modal('hide');
-            }, 5000); // 5000 milliseconds (5 seconds)
-        })
-        .catch(error => {
-            console.error(error);
-        });
-        });
-    } else {
-        const modalBody = document.querySelector('#modal-body');
-        modalBody.textContent = "error";
-        $('#myModal').modal('show');
-        setTimeout(function() {
-        $('#myModal').modal('hide');
-        }, 5000); // 5000 milliseconds (5 seconds)
-    }
-    }
-
-    $(document).on('click', '#closebtn', function(){
-        $('#confirmationModal').modal('hide');
-    });
-</script>
 
 <!-- Footer Section Begin -->
 <footer class="footer">
@@ -410,15 +264,121 @@ function orderReturn(orderId) {
 <% } %>
 
 
-<!-- Search Begin -->
-<div class="search-model">
-    <div class="h-100 d-flex align-items-center justify-content-center">
-        <div class="search-close-switch">+</div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here.....">
-        </form>
-    </div>
-</div>
-<!-- Search End -->
 
+<script>
+    function orderCancel(orderId) {
+        if (orderId) {
+            // show confirmation modal
+            $('#confirmationModal').modal('show');
+    
+            // listen to click event on confirm button in modal
+            $('#confirmBtn').on('click', function() {
+                $('#confirmationModal').modal('hide');
+            // make fetch request to cancel order
+            fetch(`/order-cancel?orderId=${orderId}`, {
+                method: 'GET',
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success){
+    
+                    // show success modal
+                    $('#myModal').modal('show');
+                    const cancelbtn = document.getElementById(`cancelbtn${orderId}`);
+                    cancelbtn.style.display = "none";
+                    const statustext = document.getElementById(`status-text${orderId}`);
+                    statustext.innerHTML = 'Order has been <span class="text-danger "><strong>"Canceled"</strong></span>';
+                    statustext.style.display = "block";
+                    const statusElement = document.querySelectorAll(`#orderstatus${orderId}`);
+                    for (let i = 0; i < statusElement.length; i++) {
+                        statusElement[i].innerHTML = '<span class="fas fa-circle text-danger small mr-1"></span> Cancelled'
+                    }
+                }else{
+                    const modalBody = document.querySelector('#modal-body');
+                    modalBody.textContent = data.message;
+                    $('#myModal').modal('show');
+                    setTimeout(function() {
+                    $('#myModal').modal('hide');
+                    }, 5000); // 5000 milliseconds (5 seconds)
+                }
+    
+            })
+            .catch(error => {
+                console.error(error);
+            });
+            });
+        } else {
+            const modalBody = document.querySelector('#modal-body');
+            modalBody.textContent = "somthing wrong";
+            $('#myModal').modal('show');
+            setTimeout(function() {
+            $('#myModal').modal('hide');
+            }, 5000); // 5000 milliseconds (5 seconds)
+        }
+    }   
+        
+    ////////////////////////////////////////
+    
+    function orderReturn(orderId) {
+        if (orderId) {
+            // show confirmation modal
+            $('#confirmationModal').modal('show');
+    
+            // listen to click event on confirm button in modal
+            $('#confirmBtn').on('click', function() {
+                $('#confirmationModal').modal('hide');
+            // make fetch request to cancel order
+            fetch(`/order-return?orderId=${orderId}`, {
+                method: 'GET',
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const modalBody = document.querySelector('#modal-body');
+                modalBody.textContent = data.message;
+                if(data.success){
+    
+                    const returnbtn = document.getElementById(`returnbtn${orderId}`);
+                    returnbtn.style.display = "none";
+                    const statustext = document.getElementById(`status-text${orderId}`);
+                    statustext.innerHTML = 'Order has been <span class="text-danger "><strong>"Returned"</strong>,Refound added into your wallet</span>';
+                    statustext.style.display = "block";
+    
+                    const returndate = document.getElementById(`return-date${orderId}`);
+                    returndate.style.display = "none";
+    
+                    const statusElement = document.querySelectorAll(`#orderstatus${orderId}`);
+                    for (let i = 0; i < statusElement.length; i++) {
+                        statusElement[i].innerHTML = '<span class="fas fa-circle text-danger small mr-1"></span> Returned'
+                    }
+                }else{
+                    $('#myModal').modal('show');
+                    setTimeout(function() {
+                    $('#myModal').modal('hide');
+                    }, 5000); // 5000 milliseconds (5 seconds)
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+            });
+        } else {
+            const modalBody = document.querySelector('#modal-body');
+            modalBody.textContent = "somthing wrong";
+            $('#myModal').modal('show');
+            setTimeout(function() {
+            $('#myModal').modal('hide');
+            }, 5000); // 5000 milliseconds (5 seconds)
+        }
+        }
+    
+        $(document).on('click', '#closebtn', function(){
+            $('#confirmationModal').modal('hide');
+        });
+    </script>
 <%- include('../layouts/Ufooter'); -%>

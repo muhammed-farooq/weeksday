@@ -64,19 +64,7 @@ let msg;
 
 //////////ADMIN HOME PAGE///////////
 
-const loadDashbord3 = async (req,res) => {
-    try {
-        const date = new Date()
-        const dateOnly =new Date(date).toLocaleDateString()
-        console.log(dateOnly);
-        const orders = await Order
-        .find({})
-        .sort({ _id: -1 });  
-        res.render('aHome',{orders})
-    } catch (err) {
-        console.log(err.message);
-    }
-}
+
 const loadDashboard = async (req, res) => {
     try {
       const userData = await User.find();
@@ -130,7 +118,7 @@ const loadDashboard = async (req, res) => {
         },
         { $sort: { _id: 1 } },
       ]);
-  console.log(weeklySalesReport,'this is it',dailySalesReport);
+      
       const yearlySalesReport = await Order.aggregate([
         { $unwind: "$products" },
         {
@@ -185,7 +173,7 @@ const loadDashboard = async (req, res) => {
         const discount = salesOfDay.reduce((totalDiscount, order) => {
             return totalDiscount + order.discount;
         }, 0);
-        console.log(discount);
+
         let productCountOfDay = 0;
         salesOfDay.forEach((order) => {
           productCountOfDay += order.products.quantity;
@@ -198,7 +186,7 @@ const loadDashboard = async (req, res) => {
         });
       }
       
-      console.log('sxkhjdfgdjhasgdhjsfgdghjfg');
+
       
         const order = await Order.aggregate([
           {
@@ -251,195 +239,9 @@ const loadDashboard = async (req, res) => {
         res.status(500).send("Server Error");
       }
     }
-
-const loadDashbord1 = async (req, res) => {
-    try {
-        const orderdetails = await Order.find({})
-        const totalOrders = orderdetails.length
-        const totalPage = Math.ceil(totalOrders / limit)
-        const userData = await User.find()
-        const usersLength = userData.length
-        const today = new Date()
-        today.setHours(0, 0, 0, 0)
-        const weekAgo = new Date(today);
-        weekAgo.setDate(today.getDate() - 7);
-
-        const yearAgo = new Date(today);
-        yearAgo.setFullYear(today.getFullYear() - 1);
-
-        const dailySalesReport = await Order.aggregate([
-            {
-                $match: {
-                    "order.status": "OrderDelivered",
-                    "order.deliveredDate": { $gte: today, $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000) },
-                },
-            },
-            { $unwind: "$order" },
-            {
-                $match: {
-                    "order.status": "OrderDelivered",
-                    "order.deliveredDate": { $gte: today, $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000) },
-                },
-            },
-            {
-                $group: {
-                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$order.deliveredDate" } },
-                    totalSales: { $sum: "$grandtotal" },
-                    totalItemsSold: { $sum: "$order.quantity" },
-                },
-            },
-            { $sort: { _id: 1 } },
-        ]);
-
-
-
-        const weeklySalesReport = await orderschema.aggregate([
-            {
-                $match: {
-                    "order.status": "OrderDelivered",
-                    "order.deliveredDate": { $gte: weekAgo, $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000) },
-                },
-            },
-            { $unwind: "$order" },
-            {
-                $match: {
-                    "order.status": "OrderDelivered",
-                    "order.deliveredDate": { $gte: weekAgo, $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000) },
-                },
-            },
-            {
-                $group: {
-                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$order.deliveredDate" } },
-                    totalSales: { $sum: "$grandtotal" },
-                    totalItemsSold: { $sum: "$order.quantity" },
-                },
-            },
-            { $sort: { _id: 1 } },
-        ]);
-
-
-        const yearlySalesReport = await orderschema.aggregate([
-            {
-                $match: {
-                    "order.status": "OrderDelivered",
-                    "order.deliveredDate": { $gte: yearAgo, $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000) },
-                },
-            },
-            { $unwind: "$order" },
-            {
-                $match: {
-                    "order.status": "OrderDelivered",
-                    "order.deliveredDate": { $gte: yearAgo, $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000) },
-                },
-            },
-            {
-                $group: {
-                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$order.deliveredDate" } },
-                    totalSales: { $sum: "$grandtotal" },
-                    totalItemsSold: { $sum: "$order.quantity" },
-                },
-            },
-            { $sort: { _id: 1 } },
-        ]);
-        ////////////////////////////////// linechart//////////////////////////////////////////////////////
-
-        const currentDate = new Date()
-        const currentMonth = currentDate.getMonth()
-        const currentYear = currentDate.getFullYear()
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
-
-        const monthlyStart = new Date(currentYear, currentMonth, 1).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
-        const monthlyEnd = new Date(currentYear, currentMonth, daysInMonth);
-
-        const monthlySalesData = await orderschema.find({
-            'order.deliveredDate': {
-                $gte: monthlyStart,
-                $lte: monthlyEnd,
-            },
-        });
-
-        const dailySalesDetails = []
-        for (let i = 2; i <= daysInMonth + 1; i++) {
-            const date = new Date(currentYear, currentMonth, i)
-            const salesOfDay = monthlySalesData.filter((order) => {
-                return new Date(order.order[0].deliveredDate).toDateString() === date.toDateString()
-            })
-            const totalSalesOfDay = salesOfDay.reduce((total, order) => {
-                return total + order.grandtotal;
-            }, 0);
-            let productCountOfDay = 0;
-            salesOfDay.forEach((order) => {
-                productCountOfDay += order.order[0].quantity;
-            });
-
-            dailySalesDetails.push({ date: date, totalSales: totalSalesOfDay, totalItemsSold: productCountOfDay });
-        }
-
-        const order = await orderschema.aggregate([
-            { $unwind: "$order" },  // deconstruct the "order" array
-            {
-                $group: {
-                    _id: "$order.paymentmethod",
-                    count: { $sum: 1 }
-                }
-            },
-            {
-                $group: {
-                    _id: null,
-                    codCount: {
-                        $sum: {
-                            $cond: { if: { $eq: ["$_id", "cod"] }, then: "$count", else: 0 }
-                        }
-                    },
-                    razorpayCount: {
-                        $sum: {
-                            $cond: { if: { $eq: ["$_id", "razorpay"] }, then: "$count", else: 0 }
-                        }
-                    },
-                    walletCount: {
-                        $sum: {
-                            $cond: { if: { $eq: ["$_id", "wallet"] }, then: "$count", else: 0 }
-                        }
-                    }
-                }
-            },
-            {
-                $project: {
-                    _id: 0,
-                    codCount: 1,
-                    razorpayCount: 1,
-                    walletCount: 1
-                }
-            }
-        ]);
-
-
-        res.render("adminhome", {
-            dailySalesReport,
-            weeklySalesReport,
-            yearlySalesReport,
-            message,
-            usersLength,
-            dailySalesDetails,
-            order,
-            admin: userdetails,
-            orderData,
-            currentPage,
-            totalPage
-        }),
-            (message = null);
-
-
-
-
-
-
-    } catch (error) {
-        console.log(error.message);
-    }
-}
-
-
+       
+    
+   
 const loadOrderList =  async (req,res) => {
     try {
         const date = new Date()

@@ -116,15 +116,14 @@ function removeWishlist(productId){
             productPrice.textContent = `$${data.total}.00`;
             const grandTotalcheck = document.querySelector('.grandtotalcheck span');
             if(grandTotalcheck){
-
-              grandTotalcheck.textContent = `$${data.grand}.00`;
+              grandTotalcheck.textContent = `₹${data.grand}.00`;
               const subTotalcheck = document.querySelector('.subtotalcheck span');
-              subTotalcheck.textContent = `$${data.grand}.00`;
+              subTotalcheck.textContent = `₹${data.subGrand}.00`;
             }
             const grandTotal = document.querySelector('.grandtotal span');
-            grandTotal.textContent = `$${data.grand}.00`;
+            grandTotal.textContent = `₹${data.grand}.00`;
             const subTotal = document.querySelector('.subtotal span');
-            subTotal.textContent = `$${data.grand}.00`;
+            subTotal.textContent = `₹${data.subGrand}.00`;
         })
         .catch(error => console.error(error));
       });
@@ -143,18 +142,22 @@ function removeWishlist(productId){
         .then(data => {
 
             const productPrice = document.querySelector(`#product_${productId}_price`);
-            productPrice.textContent = `$${data.total}.00`;
+            productPrice.textContent = `₹${data.total}.00`;
             const grandTotalcheck = document.querySelector('.grandtotalcheck span');
+            const discount = document.querySelector('.discount span');
+            discount.textContent = `0%`
             if(grandTotalcheck){
+            const discount1 = document.querySelector('.discount1 span');
+            discount1.textContent = `0%`
 
-              grandTotalcheck.textContent = `$${data.grand}.00`;
+              grandTotalcheck.textContent = `₹${data.grand}.00`;
               const subTotalcheck = document.querySelector('.subtotalcheck span');
-              subTotalcheck.textContent = `$${data.grand}.00`;
+              subTotalcheck.textContent = `₹${data.grand}.00`;
             }
             const grandTotal = document.querySelector('.grandtotal span');
-            grandTotal.textContent = `$${data.grand}.00`;
+            grandTotal.textContent = `₹${data.grand}.00`;
             const subTotal = document.querySelector('.subtotal span');
-            subTotal.textContent = `$${data.grand}.00`;
+            subTotal.textContent = `₹${data.grand}.00`;
         })
         .catch(error => console.error(error));
       });
@@ -176,15 +179,18 @@ function removeWishlist(productId){
                   divToRemove.style.display = 'none';
                   const grandTotalcheck = document.querySelector('.grandtotalcheck span');
                   if(grandTotalcheck){
-
-                    grandTotalcheck.textContent = `$${data.grand}.00`;
+                    const discount1 = document.querySelector('.discount1 span');
+                    discount1.textContent = `0%`
+                    grandTotalcheck.textContent = `₹${data.grand}.00`;
                     const subTotalcheck = document.querySelector('.subtotalcheck span');
-                    subTotalcheck.textContent = `$${data.grand}.00`;
+                    subTotalcheck.textContent = `₹${data.grand}.00`;
                   }
+                  const discount = document.querySelector('.discount span');
+                  discount.textContent = `0%`
                   const grandTotal = document.querySelector('.grandtotal span');
-                  grandTotal.textContent = `$${data.grand}.00`;
+                  grandTotal.textContent = `₹${data.grand}.00`;
                   const subTotal = document.querySelector('.subtotal span');
-                  subTotal.textContent = `$${data.grand}.00`;
+                  subTotal.textContent = `₹${data.grand}.00`;
                   
                   
                   if(data.qua == 0){
