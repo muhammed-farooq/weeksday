@@ -138,7 +138,7 @@
         if (!category) {
           $('#category-error').text('Please enter Category');
           error = true;
-          $('#category')
+          
       } else {
         $('#startingDate-error').text('');
       }
@@ -147,8 +147,8 @@
     
       // Submit the form if no errors
       if (!error) {
-        sort();
-      }
+      this.submit();
+    }
     });
   });
 </script>
