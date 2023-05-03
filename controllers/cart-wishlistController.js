@@ -322,6 +322,7 @@ const addToWishlist = async (req,res) => {
             message: `first you need to login`,
             login:true
           };
+
           res.send(responseData);
     }
     } catch (error) {

@@ -1,3 +1,8 @@
+
+function productView(productId) {
+  window.location.href = `/product-detail?id=${productId}` ; // assuming the product view page URL is in the format of '/product/{productId}'
+}
+
 //// WISHLIST SCRIPT START
 
 function addToWishlist(productId){

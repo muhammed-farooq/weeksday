@@ -90,9 +90,9 @@
 
 
                         <div class="col-lg-4 col-md-6 col-sm-12">
-                            
+
                             <div class="product__item">
-                                    <div class="product__item__pic" style="background-image: url('product_img/<%= products[i].images[0] %>');">             
+                                    <div class="product__item__pic" style="background-image: url('product_img/<%= products[i].images[0] %>');" onclick="productView('<%= products[i]._id %>')">             
                                     <!-- <span class="label">New</span> -->
                                     <ul class="product__hover">
                                         <li><a  onclick="addToWishlist('<%= products[i]._id %>')" class='wishlistadd' id="<%= products[i]._id %>"><img src="img/icon/heart.png" alt=""></a></li>
@@ -306,7 +306,7 @@ function filter() {
                 $.each(data.products, function(index, product) {
                     var productCard = $('<div>').addClass('col-lg-4 col-md-6 col-sm-12').html(
                         '<div class="product__item">' +
-                        '<div class="product__item__pic" style="background-image: url(\'product_img/' + product.images[0] + '\');">' +
+                            '<div class="product__item__pic" style="background-image: url(\'product_img/' + product.images[0] + '\');" onclick="productView(\'' + product._id + '\')">' +
                             '<ul class="product__hover">' +
                             '<li><a onclick="addToWishlist(\'' + product._id + '\')" class="wishlistadd" id="' + product._id + '"><img src="img/icon/heart.png" alt=""></a></li>' +
                             '<li><a href="/product-detail?id=' + product._id + '"><img src="img/icon/search.png" alt=""></a></li>' +
