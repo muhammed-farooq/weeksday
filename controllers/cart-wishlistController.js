@@ -26,6 +26,7 @@ let grandTotal = 0;
 
 const addToCart = async (req,res) => {
     try {
+        if(req.session.user_Id){
         const userId = req.session.user_Id
         const size = req.body.size
         const quantity = req.body.quantity
@@ -117,6 +118,14 @@ const addToCart = async (req,res) => {
               };
               res.send(responseData);
         }
+    }else{
+        const responseData = {
+            success: false,
+            message: `first you need to login`,
+            login:true
+          };
+          res.send(responseData);
+    }
         
     } catch (error) {
         console.log(error);
@@ -257,6 +266,7 @@ const WishlistLoad = async (req,res) => {
 
 const addToWishlist = async (req,res) => {
     try {
+        if(req.session.user_Id){
         const userId = req.session.user_Id
         const productId = req.query.id   
         const wishlist =  await Wishlist.findOne({UserId:userId})
@@ -306,6 +316,14 @@ const addToWishlist = async (req,res) => {
               };
               res.send(responseData);  
         }
+    }else{
+        const responseData = {
+            success: false,
+            message: `first you need to login`,
+            login:true
+          };
+          res.send(responseData);
+    }
     } catch (error) {
         console.log(error);
     }

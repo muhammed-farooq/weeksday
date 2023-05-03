@@ -5,6 +5,8 @@ function addToWishlist(productId){
   fetch(`/wishlist/add?id=${productId}`)
       .then(response => response.json())
       .then(data => {
+        if(!data.login){
+        
         if (data.success) {
           const modalBody = document.querySelector('.modal-body');
           modalBody.textContent = data.message;
@@ -15,6 +17,9 @@ function addToWishlist(productId){
         }else{
           location.href ='/login'
         }
+      }else{
+        location.href = '/login'
+      }
       })
       .catch(error => {
           console.error(error);
