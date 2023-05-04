@@ -981,7 +981,8 @@ ol {
 	height: 600px;
 	width: auto;
 	position: relative;
-	background-position: center center;
+	background-position: center;
+	background-size: cover;
 }
 
 .product__item__pic .label {
