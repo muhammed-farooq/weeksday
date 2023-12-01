@@ -147,43 +147,6 @@ const checkoutLoad =async  (req,res) => {
         console.log(error);     
     }
 }
-// const checkOut = async(req,res)=>{
-
-//     try {
-
-//         const session = req.session.user_id 
-//         const cartData = await cartModel.findOne({user : session}).populate('item.product')
-
-//         const user = await User.findOne({_id : session})
-
-//         if(cartData){
-//             const outOfStock = cartData.item.map((value)=>value).filter((value)=>{
-//                 return value.product.stock < 1
-//             })
-//             if(outOfStock.length!=0){
-
-//                 res.redirect('/view-cart')
-
-//             }else{
-
-//             const coupon = await couponModel.find({'users.user':{$ne:session}})
-//             console.log(coupon);
-
-//             console.log(discountField);
-                
-//             res.render('checkout',{session,cartData,user,coupon,discountField})
-
-//             }
-
-//         }else{
-
-//             res.redirect('/view-cart')
-
-//         }
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 
 const placeOrder = async (req, res) => {
     try {
@@ -336,7 +299,7 @@ const checkoutSuccessload = async (req,res) => {
         const orderId = req.query.orderId
         const userId = req.session.user_Id
         const order = req.session.order
-        console.log(!order);
+
         const userData = await User.findOne({_id:userId});
         // const order = await Order.findOne({user:userId,_id:orderId}).populate('products.productId');
         res.render('checkout-success',{user:userData,order,orderId})
